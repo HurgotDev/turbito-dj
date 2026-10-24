@@ -19,5 +19,5 @@ es el texto del Release en GitHub.
   `design/tokens.json`.
 - CI "Build & Test" en macOS y Windows en cada push a `main` y en cada PR,
   con la app descargable durante 7 días.
-- Workflow "Release" que compila ambas plataformas y crea un Release en
-  borrador con este changelog.
+- Workflow "Release" que, al mergear a `main`, compila ambas plataformas y
+  crea un Release en borrador con este changelog.

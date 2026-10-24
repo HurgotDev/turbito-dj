@@ -48,31 +48,43 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 - Audios de prueba con valores esperados en `test-audio/README.md`: úsalos en las pruebas del análisis y del motor.
 
 ## Método de trabajo
-- `main` está protegida por el ruleset "Protect main" de GitHub: sin push
-  directo ni force-push, todo entra por PR y el merge exige los checks
-  "macOS" y "Windows" en verde. No se exigen aprobaciones (los PR salen con
-  la cuenta del usuario y nadie aprueba su propio PR): la revisión es el
-  merge que hace el usuario.
-- Nunca se hace commit directo a `main`. Cada fase o cambio
-  independiente va en su rama: `phase/NN-nombre`, `feat/…`, `fix/…`,
-  `docs/…`, `ci/…`. Dentro de la rama, un commit por tarea.
-- Al terminar: push de la rama y PR a `main` con resumen, cambios y cómo se
-  verificó. La CI "Build & Test" (jobs "macOS" y "Windows") corre sola en el
-  PR y debe quedar en verde.
-- El usuario revisa y hace el merge. Claude nunca mergea un PR.
-- Después del merge: sincronizar `main` local y borrar la rama.
-- Versiones (SemVer, `0.x` hasta el MVP): un PR "Release x.y.z" sube
-  `project(... VERSION)` en `CMakeLists.txt` y pasa `[Unreleased]` a
-  `## [x.y.z] - fecha` en `CHANGELOG.md`. Tras el merge, el usuario lanza el
-  workflow "Release" (manual), que crea un Release en borrador; el usuario lo
-  revisa y lo publica. Claude no lanza "Release" por cuenta propia.
+- Ramas:
+  - `develop` (rama por defecto): integración diaria. Todo trabajo entra aquí.
+  - `main`: solo versiones publicadas. Cada merge a `main` es una versión y
+    dispara solo el workflow "Release".
+  - De trabajo, desde `develop`: `phase/NN-nombre`, `feat/…`, `fix/…`,
+    `docs/…`, `ci/…`. Dentro de la rama, un commit por tarea.
+  - `hotfix/x.y.z`, desde `main`: solo para arreglos urgentes de una versión
+    publicada.
+- `develop` y `main` están protegidas por rulesets de GitHub: sin push directo
+  ni force-push, todo entra por PR y el merge exige los checks "macOS" y
+  "Windows" en verde. En `main` además: el check "Source branch" (el PR solo
+  puede venir de `develop` o `hotfix/*`) y merge solo con merge commit (sin
+  squash ni rebase, para que `develop` y `main` compartan historia). No se
+  exigen aprobaciones (los PR salen con la cuenta del usuario y nadie aprueba
+  su propio PR): la revisión es el merge que hace el usuario.
+- Flujo de una funcionalidad: rama desde `develop` → push → PR a `develop`
+  con resumen, cambios y cómo se verificó → "Build & Test" en verde → el
+  usuario mergea → sincronizar `develop` local y borrar la rama.
+- Flujo de una versión (SemVer, `0.x` hasta el MVP):
+  1. PR `release/x.y.z` → `develop`: sube `project(... VERSION)` en
+     `CMakeLists.txt` y pasa `[Unreleased]` a `## [x.y.z] - fecha` en
+     `CHANGELOG.md`.
+  2. PR `develop` → `main` titulado "Release x.y.z". Al mergearlo, "Release"
+     compila y crea el Release en borrador; el usuario lo revisa y lo publica.
+- Flujo de un hotfix: rama `hotfix/x.y.z` desde `main` con el arreglo, la
+  versión subida y su sección en `CHANGELOG.md` → PR a `main` → al mergear
+  sale el borrador → PR de `main` a `develop` para traer el arreglo (sin esto
+  la siguiente versión lo perdería).
+- El usuario revisa y hace todos los merges. Claude nunca mergea un PR ni
+  lanza "Release" a mano.
 
 ## Estructura de carpetas
 
 ```
 CMakeLists.txt, CMakePresets.json  # raíz; presets macos-universal, windows-x64
 cmake/              # módulos CMake: dependencias (FetchContent), BinaryData
-.github/workflows/  # build-and-test.yml (push/PR), release.yml (manual)
+.github/workflows/  # build-and-test.yml (develop, PRs), release.yml (main)
 docs/
   SPEC.md
   plans/            # un plan por fase: 01-skeleton.md … 13-packaging.md

@@ -62,13 +62,16 @@ tarda varios minutos.
 
 ## CI
 
+El desarrollo ocurre en `develop` (rama por defecto); `main` solo recibe
+versiones.
+
 - **Build & Test** (`build-and-test.yml`): compila y prueba en macOS (Debug,
-  arquitectura nativa, para que sea rápido) y Windows (Release) en cada push a
-  `main` y en cada PR. La app compilada queda descargable 7 días en la
-  corrida, como build de desarrollo.
-- **Release** (`release.yml`): se lanza a mano desde la pestaña Actions.
-  Compila las dos plataformas (macOS Universal con LTO, unos 35 minutos) en
-  la versión de `CMakeLists.txt` y crea un
+  arquitectura nativa, para que sea rápido) y Windows (Release) en cada PR
+  hacia `develop` o `main` y en cada push a `develop`. La app compilada queda
+  descargable 7 días en la corrida, como build de desarrollo.
+- **Release** (`release.yml`): corre solo al mergear un PR a `main` (desde
+  `develop` o un `hotfix/*`). Compila las dos plataformas (macOS Universal
+  con LTO, unos 35 minutos) en la versión de `CMakeLists.txt` y crea un
   Release en borrador con la sección de esa versión de
   [`CHANGELOG.md`](CHANGELOG.md), para revisarlo y publicarlo.
 
@@ -105,7 +108,8 @@ Las contribuciones son bienvenidas: abre un issue o un pull request. Antes de
 proponer cambios, lee [`CLAUDE.md`](CLAUDE.md) (reglas del audio,
 arquitectura, estructura y método de trabajo) y [`docs/SPEC.md`](docs/SPEC.md).
 
-- Trabaja en una rama (`feat/…`, `fix/…`) y abre un PR a `main`.
+- Trabaja en una rama desde `develop` (`feat/…`, `fix/…`) y abre un PR a
+  `develop`.
 - "Build & Test" debe quedar en verde en macOS y Windows.
 - Anota tu cambio en `[Unreleased]` de [`CHANGELOG.md`](CHANGELOG.md).
 
