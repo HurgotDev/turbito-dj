@@ -71,6 +71,8 @@ UI ◄── DeckSnapshot (atomics: loaded, playing, position, length) ◄──
 - Play en pausa reproduce desde la posición actual; Play sonando pausa.
 - Al llegar al final de la pista se pausa en el final.
 - Cargar una pista: posición 0, cue en 0, en pausa.
+- Arrancar, parar y saltar al cue aplican un fundido lineal de ~5 ms para
+  evitar clics (agregado tras escuchar el render de prueba).
 
 ## Tareas
 
