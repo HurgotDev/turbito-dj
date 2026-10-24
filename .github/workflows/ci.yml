@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            configure-preset: macos-release
+            build-preset: macos-release
+            test-preset: macos-release
+          - os: windows-latest
+            configure-preset: windows
+            build-preset: windows-release
+            test-preset: windows-release
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure
+        run: cmake --preset ${{ matrix.configure-preset }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.build-preset }} --parallel
+
+      - name: Test
+        run: ctest --preset ${{ matrix.test-preset }}
