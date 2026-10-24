@@ -25,11 +25,11 @@ Turbito DJ es una app DJ nativa para macOS y Windows, con dos decks, mezclador, 
 
 ## Stack técnico
 
-C++20 sobre JUCE 8, compilado con CMake. Un solo código base genera la app para macOS (Universal: arm64 + x86\_64) y Windows x64.
+C++20 sobre JUCE 9, compilado con CMake. Un solo código base genera la app para macOS (Universal: arm64 + x86\_64) y Windows x64.
 
 | Capa | Elección | Motivo |
 | --- | --- | --- |
-| Framework | JUCE 8 (CMake, `juce_add_gui_app`) | Audio de baja latencia, MIDI, UI y empaquetado multiplataforma |
+| Framework | JUCE 9 (CMake, `juce_add_gui_app`) | Audio de baja latencia, MIDI, UI y empaquetado multiplataforma |
 | Audio | CoreAudio (macOS), WASAPI y ASIO (Windows) vía `AudioDeviceManager` | Latencia objetivo menor a 10 ms |
 | Decodificación | `AudioFormatManager` de JUCE (MP3, WAV, FLAC, AIFF) | Incluido en JUCE |
 | Time-stretch y keylock | Rubber Band Library (R3) | Calidad profesional; se usa bajo GPL (compatible con AGPLv3) |

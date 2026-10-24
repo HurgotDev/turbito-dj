@@ -102,11 +102,11 @@ Criterios de aceptación:
 
 ## Checklist
 
-- [ ] T1 – App que abre la ventana (macOS local)
-- [ ] Checkpoint: captura de la ventana revisada
-- [ ] T2 – Prueba de tokens conectada a CTest
+- [x] T1 – App que abre la ventana (macOS local)
+- [x] Checkpoint: captura de la ventana revisada
+- [x] T2 – Prueba de tokens conectada a CTest
 - [ ] T3 – CI en verde en macOS y Windows, binario Universal
-- [ ] T4 – README, SPEC y CLAUDE.md actualizados (JUCE 9, Compilar)
+- [x] T4 – README, SPEC y CLAUDE.md actualizados (JUCE 9, Compilar)
 - [ ] Commit y push
 
 ## Lo que no entra en la fase 1

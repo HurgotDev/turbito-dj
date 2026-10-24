@@ -4,7 +4,7 @@ App DJ nativa para macOS y Windows, inspirada en la cultura picotera de la costa
 La especificación completa está en `docs/SPEC.md`. Léela antes de planear cualquier fase.
 
 ## Stack
-- C++20, JUCE 8, CMake (`juce_add_gui_app`). macOS 13+ (Universal) y Windows 10/11 x64.
+- C++20, JUCE 9, CMake (`juce_add_gui_app`). macOS 13+ (Universal) y Windows 10/11 x64.
 - Audio: `AudioDeviceManager` (CoreAudio, WASAPI, ASIO). Decodificación con `AudioFormatManager`.
 - Time-stretch/keylock: Rubber Band (R3). BPM/beatgrid: aubio o Essentia. Tono: Essentia (notación Camelot).
 - Base de datos: SQLite embebido. Pruebas: Catch2 + CTest. CI: GitHub Actions (macOS y Windows).

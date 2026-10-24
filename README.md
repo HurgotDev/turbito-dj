@@ -8,9 +8,9 @@ App DJ nativa para macOS y Windows, inspirada en la cultura picotera de la
 costa colombiana. Dos decks, mezclador, efectos, hot cues, loops y un sampler
 de placas, que funciona igual con o sin controladora.
 
-> **Estado:** en desarrollo. El repositorio tiene la especificación, el
-> diseño y los assets; el código empieza con la fase 1 (esqueleto CMake +
-> JUCE).
+> **Estado:** en desarrollo. Fase 1 (esqueleto) lista: proyecto CMake con
+> JUCE, ventana vacía de 1440 × 900 y CI en macOS y Windows. Siguiente: fase 2
+> (motor de audio mínimo). Plan de fases en [`docs/SPEC.md`](docs/SPEC.md).
 
 ## Funciones del MVP
 
@@ -27,7 +27,7 @@ de placas, que funciona igual con o sin controladora.
 
 ## Stack
 
-- C++20, JUCE 8 y CMake.
+- C++20, JUCE 9 y CMake.
 - Audio: CoreAudio (macOS), WASAPI y ASIO (Windows).
 - Rubber Band (time-stretch y keylock), aubio o Essentia (BPM y tono).
 - SQLite embebido, Catch2 + CTest y GitHub Actions.
@@ -36,8 +36,29 @@ Plataformas: macOS 13+ (Universal: arm64 + x86_64) y Windows 10/11 x64.
 
 ## Compilar
 
-Pendiente hasta la fase 1. Requisitos previstos: CMake 3.22+, un compilador
-C++20 (Xcode 15+ o Visual Studio 2022) y los presets de `CMakePresets.json`.
+Requisitos: CMake 3.22+, git y un compilador C++20 (Xcode en macOS, Visual
+Studio con "Desarrollo para el escritorio con C++" en Windows). JUCE y Catch2
+se descargan solos en el primer configure (`cmake/Dependencies.cmake`).
+
+macOS:
+
+```sh
+cmake --preset macos-debug           # o macos-release (Universal)
+cmake --build --preset macos-debug
+ctest --preset macos-debug
+open "build/macos-debug/src/TurbitoDJ_artefacts/Debug/Turbito DJ.app"
+```
+
+Windows:
+
+```sh
+cmake --preset windows
+cmake --build --preset windows-debug  # o windows-release
+ctest --preset windows-debug
+```
+
+El build Release de macOS es Universal (arm64 + x86_64) con LTO, y su enlace
+tarda varios minutos.
 
 ## Estructura del repositorio
 

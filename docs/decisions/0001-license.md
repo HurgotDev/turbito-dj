@@ -9,7 +9,7 @@ público en GitHub para que cualquiera pueda clonarlo, usarlo y colaborar.
 
 Las dependencias principales son copyleft o tienen licencia doble:
 
-- JUCE 8: AGPLv3 o licencia comercial.
+- JUCE 9 (mismos términos que JUCE 8): AGPLv3 o licencia comercial.
 - Rubber Band: GPL o licencia comercial.
 - Essentia: AGPLv3 o licencia propietaria.
 - aubio: GPLv3.
