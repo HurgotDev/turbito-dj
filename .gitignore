@@ -1,4 +1,35 @@
-.DS_Store
+# Build output (CMake presets write to build/<preset>)
 build/
+out/
+cmake-build-*/
+CMakeUserPresets.json
+compile_commands.json
+
+# IDEs and editors
+.vscode/
+.idea/
+.vs/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.swp
+*~
+
+# Tooling caches
+.cache/
 graphify-out/
+
+# Per-user Claude Code settings (shared ones live in .claude/settings.json)
 .claude/settings.local.json
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local audio and recordings: never commit music with rights (test-audio/ is
+# the only exception, with synthetic files)
+*.mp3
+*.flac
+*.aiff
+*.aif
+recordings/

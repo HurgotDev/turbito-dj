@@ -39,6 +39,10 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 - Cada fase termina compilando en macOS y Windows, con pruebas en verde y un commit.
 - `README.md` siempre al día: todo cambio que afecte estado, funciones,
   stack, cómo compilar, estructura o licencia lo actualiza en el mismo commit.
+- `.gitignore` siempre al día: toda herramienta, carpeta de build, caché o
+  archivo generado nuevo se ignora en el mismo commit que lo introduce. Antes
+  de cada push, `git status --short` no debe mostrar nada que sobre, y
+  `git ls-files -ci --exclude-standard` debe salir vacío.
 - Audios de prueba con valores esperados en `test-audio/README.md`: úsalos en las pruebas del análisis y del motor.
 
 ## Estructura de carpetas
