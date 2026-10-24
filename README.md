@@ -62,11 +62,13 @@ tarda varios minutos.
 
 ## CI
 
-- **Build & Test** (`build-and-test.yml`): compila y prueba en macOS
-  (Universal) y Windows en cada push a `main` y en cada PR. La app compilada
-  queda descargable 7 días en la corrida, como build de desarrollo.
+- **Build & Test** (`build-and-test.yml`): compila y prueba en macOS (Debug,
+  arquitectura nativa, para que sea rápido) y Windows (Release) en cada push a
+  `main` y en cada PR. La app compilada queda descargable 7 días en la
+  corrida, como build de desarrollo.
 - **Release** (`release.yml`): se lanza a mano desde la pestaña Actions.
-  Compila las dos plataformas en la versión de `CMakeLists.txt` y crea un
+  Compila las dos plataformas (macOS Universal con LTO, unos 35 minutos) en
+  la versión de `CMakeLists.txt` y crea un
   Release en borrador con la sección de esa versión de
   [`CHANGELOG.md`](CHANGELOG.md), para revisarlo y publicarlo.
 

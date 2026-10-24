@@ -17,7 +17,7 @@ es el texto del Release en GitHub.
   1440 × 900 (mínimo 1280 × 720) con el fondo del diseño.
 - Prueba que mantiene los valores de la UI sincronizados con
   `design/tokens.json`.
-- CI "Build & Test" en macOS (Universal) y Windows en cada push a `main` y en
-  cada PR, con la app descargable durante 7 días.
+- CI "Build & Test" en macOS y Windows en cada push a `main` y en cada PR,
+  con la app descargable durante 7 días.
 - Workflow "Release" que compila ambas plataformas y crea un Release en
   borrador con este changelog.

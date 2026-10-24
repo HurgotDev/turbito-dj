@@ -17,11 +17,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Native Debug: the Universal LTO Release build (~35 min) runs only in release.yml.
           - name: macOS
             os: macos-latest
-            configure: macos-release
-            preset: macos-release
-            package: ditto -c -k --keepParent "build/macos-release/src/TurbitoDJ_artefacts/Release/Turbito DJ.app" "$ZIP"
+            configure: macos-debug
+            preset: macos-debug
+            package: ditto -c -k --keepParent "build/macos-debug/src/TurbitoDJ_artefacts/Debug/Turbito DJ.app" "$ZIP"
           - name: Windows
             os: windows-latest
             configure: windows
