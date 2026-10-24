@@ -29,3 +29,9 @@ es el texto del Release en GitHub.
   elección se recuerda al reabrir la app.
 - Controles provisionales (Cargar, Play, CUE, Ajustes de audio) hasta la UI
   del diseño en la fase 4.
+
+### Corregido
+
+- Los logos SVG (`turbito-horizontal.svg` y `turbito-logo.svg`) ya no se ven
+  cortados en Safari/iOS: el texto pasa a trazos vectoriales y no depende de
+  la fuente incrustada.
