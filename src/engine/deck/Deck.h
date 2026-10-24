@@ -22,10 +22,20 @@ public:
     double lengthSeconds() const noexcept;
 
 private:
+    void startPlayback();
+    void stopPlayback();
+
     Track* track = nullptr;
     double position = 0.0;
     double cuePoint = 0.0;
     bool playing = false;
     bool cueHeld = false;
     bool previewing = false;  // playback started by holding CUE while paused
+
+    // Click-free fades, in samples of the device rate. fadeSamples is set by
+    // render(); the others never reach the logic above.
+    int fadeSamples = 0;
+    int fadeInDone = 0;          // samples of the main voice since its start
+    int tailLeft = 0;            // fade-out tail still rendering while > 0
+    double tailPosition = 0.0;   // read position of the tail, from the old stop
 };

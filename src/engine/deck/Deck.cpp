@@ -2,6 +2,24 @@
 
 #include <juce_core/juce_core.h>
 
+namespace
+{
+    constexpr double fadeSeconds = 0.005;
+
+    // Linear interpolation of one channel at a fractional sample position.
+    float readInterpolated(const juce::AudioBuffer<float>& audio, int channel, double position)
+    {
+        const int length = audio.getNumSamples();
+        const int index = static_cast<int>(position);
+        const int next = juce::jmin(index + 1, length - 1);
+        const auto fraction = static_cast<float>(position - index);
+        const auto* source = audio.getReadPointer(juce::jmin(channel, audio.getNumChannels() - 1));
+
+        // shortcut: linear interpolation, replace with Rubber Band in phase 6
+        return source[index] + (source[next] - source[index]) * fraction;
+    }
+}
+
 Track* Deck::setTrack(Track* next)
 {
     Track* previous = track;
@@ -11,6 +29,7 @@ Track* Deck::setTrack(Track* next)
     playing = false;
     cueHeld = false;
     previewing = false;
+    tailLeft = 0;  // the old track may be retired now; never read it again
     return previous;
 }
 
@@ -28,12 +47,16 @@ void Deck::handle(const ActionEvent& event)
 
         if (cueHeld)
         {
-            playing = true;
+            startPlayback();
             previewing = false;
+        }
+        else if (playing)
+        {
+            stopPlayback();
         }
         else
         {
-            playing = ! playing;
+            startPlayback();
         }
     }
     else if (pressed)
@@ -42,14 +65,14 @@ void Deck::handle(const ActionEvent& event)
 
         if (playing)
         {
+            stopPlayback();
             position = cuePoint;
-            playing = false;
             previewing = false;
         }
         else
         {
             cuePoint = position;
-            playing = true;
+            startPlayback();
             previewing = true;
         }
     }
@@ -57,8 +80,8 @@ void Deck::handle(const ActionEvent& event)
     {
         if (cueHeld && previewing)
         {
+            stopPlayback();
             position = cuePoint;
-            playing = false;
         }
 
         cueHeld = false;
@@ -66,9 +89,30 @@ void Deck::handle(const ActionEvent& event)
     }
 }
 
+void Deck::startPlayback()
+{
+    if (playing)
+        return;
+
+    playing = true;
+    fadeInDone = 0;
+}
+
+void Deck::stopPlayback()
+{
+    if (! playing)
+        return;
+
+    // The tail continues from the current read position, starting at the
+    // level the main voice had reached (a stop during fade-in is smooth).
+    tailLeft = fadeInDone;
+    tailPosition = position;
+    playing = false;
+}
+
 void Deck::render(float* const* outputs, int numChannels, int numSamples, double deviceRate)
 {
-    if (track == nullptr || ! playing)
+    if (track == nullptr || (! playing && tailLeft == 0))
         return;
 
     const auto& audio = track->audio;
@@ -77,38 +121,53 @@ void Deck::render(float* const* outputs, int numChannels, int numSamples, double
     if (length == 0 || audio.getNumChannels() == 0)
     {
         playing = false;
+        tailLeft = 0;
         return;
     }
+
+    fadeSamples = juce::jmax(1, juce::roundToInt(deviceRate * fadeSeconds));
 
     if (position >= length)
     {
         position = length;
         playing = false;
-        return;
     }
 
     const double step = track->sampleRate / deviceRate;
 
-    for (int i = 0; i < numSamples && playing; ++i)
+    for (int i = 0; i < numSamples; ++i)
     {
-        const int index = static_cast<int>(position);
-        const int next = juce::jmin(index + 1, length - 1);
-        const auto fraction = static_cast<float>(position - index);
-
-        for (int ch = 0; ch < numChannels; ++ch)
+        if (playing)
         {
-            const auto* source = audio.getReadPointer(juce::jmin(ch, audio.getNumChannels() - 1));
+            const auto gain = static_cast<float>(fadeInDone) / static_cast<float>(fadeSamples);
 
-            // shortcut: linear interpolation, replace with Rubber Band in phase 6
-            outputs[ch][i] += source[index] + (source[next] - source[index]) * fraction;
+            for (int ch = 0; ch < numChannels; ++ch)
+                outputs[ch][i] += gain * readInterpolated(audio, ch, position);
+
+            position += step;
+
+            if (fadeInDone < fadeSamples)
+                ++fadeInDone;
+
+            if (position >= length)
+            {
+                position = length;
+                playing = false;
+            }
         }
 
-        position += step;
-
-        if (position >= length)
+        if (tailLeft > 0)
         {
-            position = length;
-            playing = false;
+            const auto gain = static_cast<float>(tailLeft) / static_cast<float>(fadeSamples);
+
+            for (int ch = 0; ch < numChannels; ++ch)
+                outputs[ch][i] += gain * readInterpolated(audio, ch, tailPosition);
+
+            tailPosition += step;
+            --tailLeft;
+
+            if (tailPosition >= length)
+                tailLeft = 0;
         }
     }
 }

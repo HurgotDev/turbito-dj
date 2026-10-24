@@ -2,6 +2,9 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 
+#include <cmath>
+#include <vector>
+
 #include "../../TestTracks.h"
 #include "engine/deck/Deck.h"
 
@@ -28,6 +31,22 @@ namespace
     double positionSamples(const Deck& deck)
     {
         return deck.positionSeconds() * fileRate;
+    }
+
+    // Fade length at 44.1 kHz: 5 ms, as Deck computes it.
+    const int fadeSamples = juce::roundToInt(fileRate * 0.005);
+
+    std::unique_ptr<Track> makeConstantTrack(int numSamples, float value)
+    {
+        auto track = std::make_unique<Track>();
+        track->audio.setSize(2, numSamples);
+
+        for (int ch = 0; ch < 2; ++ch)
+            juce::FloatVectorOperations::fill(track->audio.getWritePointer(ch), value, numSamples);
+
+        track->sampleRate = fileRate;
+        track->name = "constant";
+        return track;
     }
 }
 
@@ -58,14 +77,29 @@ TEST_CASE("Play advances the position by numSamples", "[engine][deck]")
     deck.setTrack(track.get());
 
     press(deck, Action::DeckA_Play);
-    const auto out = render(deck, 100);
+    const auto out = render(deck, 300);
 
     CHECK(deck.isPlaying());
-    CHECK(positionSamples(deck) == Catch::Approx(100.0));
-    CHECK(out.getSample(0, 5) == Catch::Approx(5.0f));
+    CHECK(positionSamples(deck) == Catch::Approx(300.0));
+    CHECK(out.getSample(0, 299) == Catch::Approx(299.0f));
 }
 
-TEST_CASE("Play while playing pauses and the position holds", "[engine][deck]")
+TEST_CASE("Play from silence fades in over 5 ms", "[engine][deck]")
+{
+    auto track = makeConstantTrack(10000, 0.5f);
+    Deck deck;
+    deck.setTrack(track.get());
+
+    press(deck, Action::DeckA_Play);
+    const auto out = render(deck, 1000);
+
+    CHECK(out.getSample(0, 0) == Catch::Approx(0.0f).margin(1.0e-6f));
+    CHECK(out.getSample(0, fadeSamples / 2) == Catch::Approx(0.25f).margin(1.0e-3f));
+    CHECK(out.getSample(0, fadeSamples) == Catch::Approx(0.5f));
+    CHECK(out.getSample(0, 999) == Catch::Approx(0.5f));
+}
+
+TEST_CASE("Play while playing pauses with a 5 ms fade-out", "[engine][deck]")
 {
     auto track = makeRampTrack(1000, 2, fileRate);
     Deck deck;
@@ -76,8 +110,82 @@ TEST_CASE("Play while playing pauses and the position holds", "[engine][deck]")
     press(deck, Action::DeckA_Play);
 
     CHECK_FALSE(deck.isPlaying());
+    CHECK(positionSamples(deck) == Catch::Approx(50.0));
+
+    render(deck, fadeSamples);
     CHECK(isSilent(render(deck, 50)));
     CHECK(positionSamples(deck) == Catch::Approx(50.0));
+}
+
+TEST_CASE("Pause fades out to exactly zero within 5 ms", "[engine][deck]")
+{
+    auto track = makeConstantTrack(10000, 0.5f);
+    Deck deck;
+    deck.setTrack(track.get());
+
+    press(deck, Action::DeckA_Play);
+    render(deck, 1000);
+    press(deck, Action::DeckA_Play);
+
+    const auto out = render(deck, 1000);
+
+    CHECK(out.getSample(0, 0) == Catch::Approx(0.5f));
+    CHECK(out.getSample(0, fadeSamples - 1) == Catch::Approx(0.5f / static_cast<float>(fadeSamples)));
+    CHECK(out.getSample(0, fadeSamples) == Catch::Approx(0.0f).margin(0.0f));
+    CHECK(out.getSample(0, 999) == Catch::Approx(0.0f).margin(0.0f));
+}
+
+TEST_CASE("setTrack cancels a fade-out tail", "[engine][deck]")
+{
+    auto first = makeConstantTrack(10000, 0.5f);
+    auto second = makeConstantTrack(10000, 0.5f);
+    Deck deck;
+    deck.setTrack(first.get());
+
+    press(deck, Action::DeckA_Play);
+    render(deck, 1000);
+    press(deck, Action::DeckA_Play);
+
+    CHECK(deck.setTrack(second.get()) == first.get());
+    CHECK(isSilent(render(deck, 100)));
+}
+
+TEST_CASE("Start, pause and CUE transitions have no click", "[engine][deck]")
+{
+    auto track = makeConstantTrack(100000, 0.5f);
+    Deck deck;
+    deck.setTrack(track.get());
+
+    std::vector<float> samples;
+    auto append = [&](int numSamples)
+    {
+        const auto out = render(deck, numSamples);
+
+        for (int i = 0; i < numSamples; ++i)
+            samples.push_back(out.getSample(0, i));
+    };
+
+    press(deck, Action::DeckA_Play);
+    append(1000);
+    press(deck, Action::DeckA_Play);
+    append(1000);
+    press(deck, Action::DeckA_Play);
+    append(1000);
+    press(deck, Action::DeckA_Cue);
+    append(1000);
+    release(deck, Action::DeckA_Cue);
+    append(1000);
+    press(deck, Action::DeckA_Cue);
+    append(1000);
+    release(deck, Action::DeckA_Cue);
+    append(1000);
+
+    float maxJump = 0.0f;
+
+    for (size_t i = 1; i < samples.size(); ++i)
+        maxJump = juce::jmax(maxJump, std::abs(samples[i] - samples[i - 1]));
+
+    CHECK(maxJump < 0.01f);
 }
 
 TEST_CASE("CUE while paused sets the cue and previews until release", "[engine][deck]")
@@ -147,17 +255,17 @@ TEST_CASE("Play while holding CUE keeps playing after release", "[engine][deck]"
 
 TEST_CASE("Track end pauses at the end", "[engine][deck]")
 {
-    auto track = makeRampTrack(10, 2, fileRate);
+    auto track = makeRampTrack(300, 2, fileRate);
     Deck deck;
     deck.setTrack(track.get());
 
     press(deck, Action::DeckA_Play);
-    const auto out = render(deck, 20);
+    const auto out = render(deck, 400);
 
     CHECK_FALSE(deck.isPlaying());
-    CHECK(positionSamples(deck) == Catch::Approx(10.0));
-    CHECK(out.getSample(0, 9) == Catch::Approx(9.0f));
-    CHECK(out.getSample(0, 10) == Catch::Approx(0.0f).margin(1.0e-9f));
+    CHECK(positionSamples(deck) == Catch::Approx(300.0));
+    CHECK(out.getSample(0, 299) == Catch::Approx(299.0f));
+    CHECK(out.getSample(0, 300) == Catch::Approx(0.0f).margin(1.0e-9f));
 }
 
 TEST_CASE("Deck plays a 44.1 kHz track at 48 kHz at 44100/48000 per sample", "[engine][deck]")
@@ -170,7 +278,7 @@ TEST_CASE("Deck plays a 44.1 kHz track at 48 kHz at 44100/48000 per sample", "[e
     const auto out = render(deck, 480, 48000.0);
 
     CHECK(positionSamples(deck) == Catch::Approx(480.0 * fileRate / 48000.0));
-    CHECK(out.getSample(0, 1) == Catch::Approx(static_cast<float>(fileRate / 48000.0)));
+    CHECK(out.getSample(0, 400) == Catch::Approx(400.0 * fileRate / 48000.0).margin(1.0e-3));
 }
 
 TEST_CASE("Mono track plays on both outputs", "[engine][deck]")
