@@ -1,0 +1,4 @@
+# Binary assets and test audio: nothing to extract, and audio would be transcribed
+assets/
+test-audio/*.wav
+graphify-out/
