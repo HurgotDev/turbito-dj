@@ -21,6 +21,14 @@ es el texto del Release en GitHub.
   con la app descargable durante 7 días.
 - Workflow "Release" que, al mergear a `main`, compila ambas plataformas y
   crea un Release en borrador con este changelog.
+- Motor de audio mínimo: un deck que carga una pista (WAV, AIFF, FLAC o
+  MP3) y la reproduce con Play/Pausa y CUE estándar (mantener CUE en pausa
+  previsualiza; CUE sonando vuelve al punto de cue).
+- Atajos `Espacio` (Play/Pausa) y `Q` (CUE) para el deck A.
+- Ajustes de audio para elegir la salida, la frecuencia y el buffer; la
+  elección se recuerda al reabrir la app.
+- Controles provisionales (Cargar, Play, CUE, Ajustes de audio) hasta la UI
+  del diseño en la fase 4.
 
 ### Corregido
 

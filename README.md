@@ -8,9 +8,10 @@ App DJ nativa para macOS y Windows, inspirada en la cultura picotera de la
 costa colombiana. Dos decks, mezclador, efectos, hot cues, loops y un sampler
 de placas, que funciona igual con o sin controladora.
 
-> **Estado:** en desarrollo. Fase 1 (esqueleto) lista: proyecto CMake con
-> JUCE, ventana vacía de 1440 × 900 y CI en macOS y Windows. Siguiente: fase 2
-> (motor de audio mínimo). Plan de fases en [`docs/SPEC.md`](docs/SPEC.md).
+> **Estado:** en desarrollo. Fase 2 (motor de audio mínimo) lista: un deck
+> que carga una pista y hace Play, Pausa y CUE, con selector de dispositivo
+> de audio y controles provisionales. Siguiente: fase 3 (dos decks y
+> mezclador). Plan de fases en [`docs/SPEC.md`](docs/SPEC.md).
 
 ## Funciones del MVP
 
