@@ -1,3 +1,5 @@
+add_subdirectory(core)
+
 juce_add_gui_app(TurbitoDJ
     PRODUCT_NAME "Turbito DJ"
     COMPANY_NAME "HurgotDev"
@@ -12,15 +14,7 @@ target_sources(TurbitoDJ PRIVATE
 target_include_directories(TurbitoDJ PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_definitions(TurbitoDJ PRIVATE
-    JUCE_WEB_BROWSER=0
-    JUCE_USE_CURL=0
     JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:TurbitoDJ,JUCE_PRODUCT_NAME>"
     JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:TurbitoDJ,JUCE_VERSION>")
 
-target_link_libraries(TurbitoDJ
-    PRIVATE
-        juce::juce_gui_basics
-    PUBLIC
-        juce::juce_recommended_config_flags
-        juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+target_link_libraries(TurbitoDJ PRIVATE turbito_core)

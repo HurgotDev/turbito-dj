@@ -11,8 +11,6 @@ target_compile_definitions(turbito_tests PRIVATE
 target_link_libraries(turbito_tests
     PRIVATE
         Catch2::Catch2WithMain
-        juce::juce_core
-        juce::juce_recommended_config_flags
-        juce::juce_recommended_warning_flags)
+        turbito_core)
 
 catch_discover_tests(turbito_tests)
