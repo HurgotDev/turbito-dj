@@ -62,10 +62,18 @@ tarda varios minutos.
 
 ## CI
 
-Hay un workflow por plataforma (`CI macOS` y `CI Windows`) y ninguno corre
-solo: se lanzan a mano desde la pestaña Actions ("Run workflow") o con
-`gh workflow run ci-macos.yml` / `gh workflow run ci-windows.yml`. Antes de
-cerrar cada fase deben quedar los dos en verde.
+- **Build & Test** (`build-and-test.yml`): compila y prueba en macOS (Debug,
+  arquitectura nativa, para que sea rápido) y Windows (Release) en cada push a
+  `main` y en cada PR. La app compilada queda descargable 7 días en la
+  corrida, como build de desarrollo.
+- **Release** (`release.yml`): se lanza a mano desde la pestaña Actions.
+  Compila las dos plataformas (macOS Universal con LTO, unos 35 minutos) en
+  la versión de `CMakeLists.txt` y crea un
+  Release en borrador con la sección de esa versión de
+  [`CHANGELOG.md`](CHANGELOG.md), para revisarlo y publicarlo.
+
+Las versiones aún no están firmadas: macOS y Windows muestran un aviso la
+primera vez que se abre la app. La firma llega con la fase 13.
 
 ## Estructura del repositorio
 
@@ -95,5 +103,10 @@ Las fuentes usan la licencia OFL (ver `assets/fonts/`).
 
 Las contribuciones son bienvenidas: abre un issue o un pull request. Antes de
 proponer cambios, lee [`CLAUDE.md`](CLAUDE.md) (reglas del audio,
-arquitectura y estructura) y [`docs/SPEC.md`](docs/SPEC.md). Al contribuir
-aceptas que tu código se publique bajo AGPLv3.
+arquitectura, estructura y método de trabajo) y [`docs/SPEC.md`](docs/SPEC.md).
+
+- Trabaja en una rama (`feat/…`, `fix/…`) y abre un PR a `main`.
+- "Build & Test" debe quedar en verde en macOS y Windows.
+- Anota tu cambio en `[Unreleased]` de [`CHANGELOG.md`](CHANGELOG.md).
+
+Al contribuir aceptas que tu código se publique bajo AGPLv3.

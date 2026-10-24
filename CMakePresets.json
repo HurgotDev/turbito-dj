@@ -6,7 +6,10 @@
       "displayName": "macOS Debug (native arch)",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "FETCHCONTENT_BASE_DIR": "${sourceDir}/build/_deps"
+      }
     },
     {
       "name": "macos-release",
@@ -15,7 +18,8 @@
       "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_OSX_ARCHITECTURES": "arm64;x86_64"
+        "CMAKE_OSX_ARCHITECTURES": "arm64;x86_64",
+        "FETCHCONTENT_BASE_DIR": "${sourceDir}/build/_deps"
       }
     },
     {
@@ -23,7 +27,8 @@
       "displayName": "Windows x64 (Visual Studio)",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "architecture": { "value": "x64", "strategy": "set" },
-      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": { "FETCHCONTENT_BASE_DIR": "${sourceDir}/build/_deps" }
     }
   ],
   "buildPresets": [

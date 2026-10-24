@@ -105,9 +105,11 @@ Criterios de aceptación:
 - [x] T1 – App que abre la ventana (macOS local)
 - [x] Checkpoint: captura de la ventana revisada
 - [x] T2 – Prueba de tokens conectada a CTest
-- [ ] T3 – CI en verde en macOS y Windows, binario Universal
+- [x] T3 – CI en verde en macOS y Windows, binario Universal (run
+  40111104964: Windows 6 min, macOS 35 min)
 - [x] T4 – README, SPEC y CLAUDE.md actualizados (JUCE 9, Compilar)
-- [ ] Commit y push
+- [x] Commit y push (después, la CI pasó a "Build & Test" + "Release"; ver
+  PR #1)
 
 ## Lo que no entra en la fase 1
 - Fuentes como `BinaryData` y `TurbitoLookAndFeel`: fase 4.
