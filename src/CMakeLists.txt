@@ -1,4 +1,5 @@
 add_subdirectory(core)
+add_subdirectory(engine)
 
 juce_add_gui_app(TurbitoDJ
     PRODUCT_NAME "Turbito DJ"
@@ -17,4 +18,4 @@ target_compile_definitions(TurbitoDJ PRIVATE
     JUCE_APPLICATION_NAME_STRING="$<TARGET_PROPERTY:TurbitoDJ,JUCE_PRODUCT_NAME>"
     JUCE_APPLICATION_VERSION_STRING="$<TARGET_PROPERTY:TurbitoDJ,JUCE_VERSION>")
 
-target_link_libraries(TurbitoDJ PRIVATE turbito_core)
+target_link_libraries(TurbitoDJ PRIVATE turbito_engine)
