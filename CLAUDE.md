@@ -48,7 +48,12 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 - Audios de prueba con valores esperados en `test-audio/README.md`: úsalos en las pruebas del análisis y del motor.
 
 ## Método de trabajo
-- Nunca se hace commit directo a `main` (está protegida). Cada fase o cambio
+- `main` está protegida por el ruleset "Protect main" de GitHub: sin push
+  directo ni force-push, todo entra por PR y el merge exige los checks
+  "macOS" y "Windows" en verde. No se exigen aprobaciones (los PR salen con
+  la cuenta del usuario y nadie aprueba su propio PR): la revisión es el
+  merge que hace el usuario.
+- Nunca se hace commit directo a `main`. Cada fase o cambio
   independiente va en su rama: `phase/NN-nombre`, `feat/…`, `fix/…`,
   `docs/…`, `ci/…`. Dentro de la rama, un commit por tarea.
 - Al terminar: push de la rama y PR a `main` con resumen, cambios y cómo se
