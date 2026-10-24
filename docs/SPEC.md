@@ -32,7 +32,7 @@ C++20 sobre JUCE 8, compilado con CMake. Un solo código base genera la app para
 | Framework | JUCE 8 (CMake, `juce_add_gui_app`) | Audio de baja latencia, MIDI, UI y empaquetado multiplataforma |
 | Audio | CoreAudio (macOS), WASAPI y ASIO (Windows) vía `AudioDeviceManager` | Latencia objetivo menor a 10 ms |
 | Decodificación | `AudioFormatManager` de JUCE (MP3, WAV, FLAC, AIFF) | Incluido en JUCE |
-| Time-stretch y keylock | Rubber Band Library (R3) | Calidad profesional; revisar su licencia GPL o comercial |
+| Time-stretch y keylock | Rubber Band Library (R3) | Calidad profesional; se usa bajo GPL (compatible con AGPLv3) |
 | BPM y beatgrid | aubio o Essentia | Detección de tempo y onsets |
 | Tono | Essentia (`KeyExtractor`), notación Camelot | Mostrar tonos como 8A o 5A |
 | Base de datos | SQLite (`sqlite3` embebido) | Biblioteca, análisis, hot cues y playlists |

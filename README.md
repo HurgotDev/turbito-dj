@@ -57,6 +57,15 @@ El detalle de carpetas y las reglas de dependencias entre módulos están en
 
 ## Licencia
 
-El código se publica bajo la licencia [MIT](LICENSE). La licencia definitiva
-está pendiente de decidir (GPL o comercial), porque JUCE y Rubber Band la
-condicionan. Las fuentes usan la licencia OFL (ver `assets/fonts/`).
+Copyright © 2026 Hugo Gutierrez. Software libre bajo la
+[GNU AGPL v3.0](LICENSE): puedes usarlo, modificarlo y redistribuirlo, siempre
+que publiques tus cambios bajo la misma licencia. El motivo de la elección
+está en [`docs/decisions/0001-license.md`](docs/decisions/0001-license.md).
+Las fuentes usan la licencia OFL (ver `assets/fonts/`).
+
+## Contribuir
+
+Las contribuciones son bienvenidas: abre un issue o un pull request. Antes de
+proponer cambios, lee [`CLAUDE.md`](CLAUDE.md) (reglas del audio,
+arquitectura y estructura) y [`docs/SPEC.md`](docs/SPEC.md). Al contribuir
+aceptas que tu código se publique bajo AGPLv3.

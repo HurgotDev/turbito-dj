@@ -34,7 +34,11 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 ## Convenciones
 - Código e identificadores en inglés; textos de la UI en español (centralizados para traducir después).
 - Estructura: ver la sección "Estructura de carpetas".
+- Licencia AGPLv3 (`docs/decisions/0001-license.md`): toda dependencia nueva
+  debe ser compatible (GPLv3, LGPL, MIT, BSD, Apache-2.0); nada propietario.
 - Cada fase termina compilando en macOS y Windows, con pruebas en verde y un commit.
+- `README.md` siempre al día: todo cambio que afecte estado, funciones,
+  stack, cómo compilar, estructura o licencia lo actualiza en el mismo commit.
 - Audios de prueba con valores esperados en `test-audio/README.md`: úsalos en las pruebas del análisis y del motor.
 
 ## Estructura de carpetas
@@ -93,4 +97,3 @@ tests/              # misma forma que src/; TestAudio.h con valores esperados
 
 ## Pendientes conocidos
 - Confirmar el modelo exacto de la Numark Party Mix antes de la fase de mapping MIDI.
-- Decidir licencia (GPL o comercial): afecta a JUCE y Rubber Band.
