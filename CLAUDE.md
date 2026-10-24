@@ -33,9 +33,63 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 
 ## Convenciones
 - Código e identificadores en inglés; textos de la UI en español (centralizados para traducir después).
-- Estructura: `src/engine/`, `src/ui/`, `src/input/`, `src/library/`, `src/automix/`, `tests/`, `mappings/`.
+- Estructura: ver la sección "Estructura de carpetas".
 - Cada fase termina compilando en macOS y Windows, con pruebas en verde y un commit.
 - Audios de prueba con valores esperados en `test-audio/README.md`: úsalos en las pruebas del análisis y del motor.
+
+## Estructura de carpetas
+
+```
+CMakeLists.txt, CMakePresets.json  # raíz; presets macos-universal, windows-x64
+cmake/              # módulos CMake: dependencias (FetchContent), BinaryData
+.github/workflows/  # CI: build + CTest en macOS y Windows
+docs/
+  SPEC.md
+  plans/            # un plan por fase: 01-skeleton.md … 13-packaging.md
+  decisions/        # ADRs: licencia, aubio vs Essentia, modelo Party Mix
+design/             # mockup-reference.html, tokens.json
+  screenshots/      # capturas 1440×900 de la app para comparar con el mockup
+assets/             # brand/, fonts/ (→ BinaryData)
+mappings/           # un JSON por controladora: numark-party-mix.json
+test-audio/         # WAV sintéticos con valores esperados
+src/
+  app/              # Main.cpp, MainWindow, MainComponent: lo conecta todo
+  core/             # Action, colas lock-free, snapshots de estado del motor
+  engine/           # hilo de audio: AudioEngine
+    deck/           # transporte, cues, loops, sync, time-stretch
+    mixer/          # canal, EQ, filtro, fader, crossfader, master, VU
+    fx/             # FxUnit, Echo, Reverb, Filter, Flanger
+    sampler/        # Placas: slots, one-shot/gate, bus propio
+    recorder/       # grabador WAV del master
+  library/
+    db/             # SQLite: conexión, esquema, migraciones, repositorios
+    scan/           # importar carpetas y leer tags
+    analysis/       # workers: BPM, beatgrid, tono, waveform, silencios
+  automix/          # cola, modos, transiciones, orden, listas guardadas
+  input/            # dispatcher, teclado, ratón, MIDI, mappings, hot-plug
+  ui/
+    look/           # TurbitoLookAndFeel, tokens, fuentes
+    Strings.h       # todos los textos de la UI en español
+    widgets/        # Knob, JogWheel, PadGrid, WaveformView, VuMeter
+    topbar/  deck/  mixer/  library/   # incluye AutoMixPanel en library/
+tests/              # misma forma que src/; TestAudio.h con valores esperados
+```
+
+- Cada carpeta de `src/` es una librería estática de CMake
+  (`turbito_core`, `turbito_engine`, …); las pruebas enlazan sin la UI.
+- Dependencias permitidas (nada más):
+  - `core` no depende de ningún módulo del proyecto.
+  - `engine` y `library` → `core`.
+  - `automix` e `input` → `core`, `library`; solo emiten `Action`.
+  - `ui` → `core`, `library`; lee el motor solo vía snapshots de `core`.
+  - `app` es el único que conoce a todos.
+- `tests/` copia la forma de `src/`: `src/engine/deck/Deck.cpp` →
+  `tests/engine/deck/DeckTests.cpp`.
+- Cada fase deja su plan en `docs/plans/NN-nombre.md`; cada decisión
+  abierta, un ADR en `docs/decisions/`.
+- No se crean carpetas vacías: cada carpeta nace en la fase que la usa.
+- Dependencias externas con `FetchContent` y versión fija en `cmake/`
+  (sin submódulos); el build va en `build/`, fuera de git.
 
 ## Pendientes conocidos
 - Confirmar el modelo exacto de la Numark Party Mix antes de la fase de mapping MIDI.
