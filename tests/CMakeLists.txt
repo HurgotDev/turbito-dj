@@ -1,6 +1,7 @@
 include(Catch)
 
 add_executable(turbito_tests
+    core/SpscQueueTests.cpp
     ui/look/TokensTests.cpp)
 
 target_include_directories(turbito_tests PRIVATE ${PROJECT_SOURCE_DIR}/src)
