@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Turbito DJ – Vista principal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A12}
+a{color:#7FC2FF}a:hover{color:#B5DCFF}
+button{font-family:inherit;cursor:pointer}
+[role="menu"] button:hover{background:#2E2A40}
+</style>
+</helmet>
+<div style="height: 100vh; min-height: 720px; overflow: hidden; background: #0A0A12; color: #F2EFF7; font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif; display: flex; flex-direction: column; gap: 10px; padding: 10px; box-sizing: border-box">
+
+<!-- Barra superior -->
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; background: #14121F; border: 1px solid #2A2639; border-radius: 12px; padding: 7px 14px; flex: 0 0 auto">
+<svg width="168" height="36" viewBox="0 24 520 112" role="img" aria-label="Turbito DJ" style="display: block; flex: 0 0 auto">
+<defs>
+<linearGradient id="tb-bar-fill" gradientUnits="userSpaceOnUse" x1="0" y1="48" x2="0" y2="114">
+<stop offset="0" stop-color="#FFF36B"></stop>
+<stop offset="0.5" stop-color="#FFE500"></stop>
+<stop offset="1" stop-color="#FF7A00"></stop>
+</linearGradient>
+</defs>
+<rect x="8" y="32" width="96" height="96" rx="22" fill="#0A0A12" stroke="#34304A" stroke-width="3"></rect>
+<circle cx="58" cy="82" r="38" fill="#000000"></circle>
+<circle cx="56" cy="80" r="36" fill="#FF2D3F"></circle>
+<circle cx="56" cy="80" r="32" fill="url(#tb-bar-fill)"></circle>
+<circle cx="56" cy="80" r="25" fill="#FF2E9A" stroke="#0A0A12" stroke-width="3"></circle>
+<circle cx="56" cy="80" r="18" fill="#1B0B2E" stroke="#0A0A12" stroke-width="2"></circle>
+<circle cx="56" cy="80" r="7" fill="#00D9FF" stroke="#0A0A12" stroke-width="2"></circle>
+<g transform="skewX(-8) translate(14 0)" font-family="'Titan One', Impact, sans-serif" font-size="64">
+<text x="128" y="108" textLength="270" lengthAdjust="spacingAndGlyphs" fill="#000000" stroke="#000000" stroke-width="14" stroke-linejoin="round" transform="translate(3 3)">TURBITO</text>
+<text x="128" y="108" textLength="270" lengthAdjust="spacingAndGlyphs" fill="#0A0A12" stroke="#0A0A12" stroke-width="13" stroke-linejoin="round">TURBITO</text>
+<text x="128" y="108" textLength="270" lengthAdjust="spacingAndGlyphs" fill="#FF2D3F" stroke="#FF2D3F" stroke-width="6" stroke-linejoin="round">TURBITO</text>
+<text x="128" y="108" textLength="270" lengthAdjust="spacingAndGlyphs" fill="url(#tb-bar-fill)">TURBITO</text>
+</g>
+<rect x="440" y="59" width="76" height="50" rx="10" fill="#000000"></rect>
+<rect x="436" y="55" width="76" height="50" rx="10" fill="#FF2E9A" stroke="#0A0A12" stroke-width="5"></rect>
+<text x="474" y="93" text-anchor="middle" font-family="'Titan One', Impact, sans-serif" font-size="32" letter-spacing="3" fill="#0A0A12" stroke="#0A0A12" stroke-width="8" stroke-linejoin="round">DJ</text>
+<text x="474" y="93" text-anchor="middle" font-family="'Titan One', Impact, sans-serif" font-size="32" letter-spacing="3" fill="#FFE500">DJ</text>
+</svg>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: #ABA4C0">
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: #39FF6A"></span>
+<span>Numark Party Mix conectada</span>
+</div>
+<div style="font-size: 12px; color: #ABA4C0">Audio: 44.1 kHz · buffer 256</div>
+<div style="display: flex; align-items: baseline; gap: 6px">
+<span style="font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em">Master</span>
+<span style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 16px; font-weight: 700">{{masterBpm}}</span>
+</div>
+<button type="button" style="display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 8px; border: 1px solid #4A1F2A; background: #1D1A2B; color: #FF7A88; font-size: 12px; font-weight: 600">
+<svg aria-hidden="true" width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#FF2D3F"></circle></svg>
+Grabar
+</button>
+<button type="button" aria-label="Ajustes" style="width: 34px; height: 34px; border-radius: 8px; border: 1px solid #2A2639; background: #1D1A2B; color: #F2EFF7; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+</button>
+</div>
+</header>
+
+<!-- Waveforms -->
+<section aria-label="Formas de onda" style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 6px; background: #14121F; border: 1px solid #2A2639; border-radius: 12px; padding: 8px">
+<sc-for list="{{waves}}" as="w" hint-placeholder-count="2">
+<div style="display: flex; align-items: stretch; gap: 8px">
+<div style="width: 28px; flex: 0 0 auto; border-radius: 6px; background: {{w.accent}}; color: #0A0A12; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center">{{w.letter}}</div>
+<div role="img" aria-label="{{w.aria}}" style="flex: 1 1 auto; min-width: 0; height: 54px; position: relative; background: #0A0A12; border-radius: 6px; overflow: hidden; display: flex; align-items: center; gap: 1px; padding: 0 2px; box-sizing: border-box">
+<sc-for list="{{w.bars}}" as="b" hint-placeholder-count="40">
+<div style="flex: 1 1 0; min-width: 0; height: {{b.h}}px; background: {{b.c}}; border-radius: 1px"></div>
+</sc-for>
+<sc-if value="{{w.loop}}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 9%; background: rgba(0,217,255,0.16); border-left: 1px solid {{w.accent}}; border-right: 1px solid {{w.accent}}"></div>
+</sc-if>
+<div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; background: #FFFFFF"></div>
+</div>
+</div>
+</sc-for>
+</section>
+
+<!-- Decks + mixer -->
+<div style="flex: 0 0 auto; display: flex; gap: 10px; align-items: stretch">
+
+<sc-for list="{{decks}}" as="d" hint-placeholder-count="2">
+<section aria-label="{{d.aria}}" style="flex: 1 1 400px; min-width: 0; order: {{d.order}}; background: #14121F; border: 1px solid #2A2639; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="width: 36px; height: 36px; flex: 0 0 auto; border-radius: 8px; background: {{d.accent}}; color: #0A0A12; font-weight: 700; font-size: 16px; display: flex; align-items: center; justify-content: center">{{d.letter}}</div>
+<div style="flex: 1 1 auto; min-width: 0">
+<div style="font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{d.title}}</div>
+<div style="font-size: 12px; color: #ABA4C0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{d.artist}}</div>
+</div>
+<div style="text-align: right; flex: 0 0 auto">
+<div style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 22px; font-weight: 700; line-height: 1">{{d.bpm}}</div>
+<div style="font-size: 11px; color: #ABA4C0; margin-top: 3px">BPM · Tono {{d.key}}</div>
+</div>
+</div>
+
+<div aria-hidden="true" style="height: 4px; border-radius: 2px; background: #2A2639; overflow: hidden">
+<div style="height: 4px; width: {{d.progress}}%; background: {{d.accent}}"></div>
+</div>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 14px">
+<div role="img" aria-label="{{d.jogAria}}" style="width: 148px; height: 148px; flex: 0 0 auto; border-radius: 50%; background: #0A0A12; border: 6px solid #262236; box-sizing: border-box; position: relative; display: flex; align-items: center; justify-content: center">
+<div aria-hidden="true" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; transform: rotate({{d.jogRot}}deg)">
+<div style="position: absolute; left: 50%; top: 5px; width: 4px; height: 18px; margin-left: -2px; border-radius: 2px; background: {{d.accent}}"></div>
+</div>
+<div style="text-align: center">
+<div style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 19px; font-weight: 700">{{d.elapsed}}</div>
+<div style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; color: #ABA4C0">{{d.remaining}}</div>
+</div>
+</div>
+
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px">
+<button type="button" style="height: 40px; border-radius: 8px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-weight: 700; font-size: 13px">CUE</button>
+<button type="button" onClick="{{d.togglePlay}}" aria-pressed="{{d.playPressed}}" style="height: 40px; border-radius: 8px; border: 1px solid {{d.accent}}; background: {{d.playBg}}; color: {{d.playFg}}; font-weight: 700; font-size: 13px">{{d.playLabel}}</button>
+<button type="button" aria-pressed="{{d.syncPressed}}" style="height: 30px; border-radius: 8px; border: 1px solid #34304A; background: {{d.syncBg}}; color: {{d.syncFg}}; font-weight: 600; font-size: 12px">SYNC</button>
+<button type="button" aria-pressed="true" style="height: 30px; border-radius: 8px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-weight: 600; font-size: 12px">KEYLOCK</button>
+</div>
+<div role="group" aria-label="Tamaño de loop" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{d.loops}}" as="l" hint-placeholder-count="6">
+<button type="button" style="height: 28px; padding: 0; border-radius: 6px; border: 1px solid #34304A; background: {{l.bg}}; color: {{l.fg}}; font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; font-weight: 700">{{l.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 4px">
+<button type="button" style="flex: 1 1 0; height: 28px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 600">LOOP IN</button>
+<button type="button" style="flex: 1 1 0; height: 28px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 600">OUT</button>
+<button type="button" style="flex: 1 1 0; height: 28px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 600">RELOOP</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 0 0 auto">
+<label for="{{d.pitchId}}" style="font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em">Pitch</label>
+<input id="{{d.pitchId}}" type="range" min="-8" max="8" step="0.1" value="{{d.pitchVal}}" onChange="{{d.onPitch}}" style="writing-mode: vertical-lr; direction: rtl; width: 26px; height: 112px; accent-color: {{d.accent}}">
+<span style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px">{{d.pitchLabel}}</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div role="group" aria-label="Modo de pads" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{d.tabs}}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="height: 28px; border-radius: 6px; border: 1px solid {{t.border}}; background: {{t.bg}}; color: {{t.fg}}; font-size: 12px; font-weight: 600">{{t.label}}</button>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{d.pads}}" as="p" hint-placeholder-count="8">
+<button type="button" style="height: 44px; border-radius: 8px; border: 1px solid #34304A; background: {{p.bg}}; color: {{p.fg}}; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; padding: 5px 8px; text-align: left; box-sizing: border-box">
+<span style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; font-weight: 700; line-height: 1">{{p.num}}</span>
+<span style="font-size: 12px; font-weight: 600; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%">{{p.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-for>
+
+<!-- Mixer -->
+<section aria-label="Mezclador" style="flex: 0 0 300px; min-width: 0; order: 1; background: #14121F; border: 1px solid #2A2639; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; box-sizing: border-box">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{chans}}" as="c" hint-placeholder-count="2">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700; font-size: 12px; color: {{c.accent}}; text-align: center">Canal {{c.letter}}</div>
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 3px">
+<sc-for list="{{c.knobs}}" as="k" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 1px">
+<div role="img" aria-label="{{k.aria}}" style="width: 26px; height: 26px; border-radius: 50%; background: #0A0A12; border: 2px solid #34304A; position: relative; transform: rotate({{k.rot}}deg); box-sizing: border-box">
+<div style="position: absolute; left: 50%; top: 2px; width: 2px; height: 8px; margin-left: -1px; border-radius: 1px; background: {{c.accent}}"></div>
+</div>
+<span style="font-size: 11px; line-height: 1.1; color: #ABA4C0">{{k.label}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 6px">
+<div aria-hidden="true" style="display: flex; flex-direction: column; gap: 2px">
+<sc-for list="{{c.vu}}" as="v" hint-placeholder-count="14">
+<div style="width: 7px; height: 7px; border-radius: 1px; background: {{v.c}}"></div>
+</sc-for>
+</div>
+<input aria-label="{{c.faderAria}}" type="range" min="0" max="100" value="{{c.fader}}" onChange="{{c.onFader}}" style="writing-mode: vertical-lr; direction: rtl; width: 26px; height: 126px; accent-color: {{c.accent}}">
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="border-top: 1px solid #2A2639; padding-top: 8px; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px">
+<label for="fx-select" style="font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em">FX</label>
+<select id="fx-select" style="flex: 1 1 auto; min-width: 0; height: 26px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 12px; padding: 0 6px">
+<option>Echo</option>
+<option>Reverb</option>
+<option>Filtro</option>
+<option>Flanger</option>
+</select>
+<div role="img" aria-label="Dry/Wet al 40%" title="Dry/Wet" style="width: 24px; height: 24px; flex: 0 0 auto; border-radius: 50%; background: #0A0A12; border: 2px solid #34304A; position: relative; transform: rotate(-27deg); box-sizing: border-box">
+<div style="position: absolute; left: 50%; top: 2px; width: 2px; height: 7px; margin-left: -1px; border-radius: 1px; background: #F2EFF7"></div>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{fxBeats}}" as="f" hint-placeholder-count="4">
+<button type="button" style="height: 26px; padding: 0; border-radius: 6px; border: 1px solid #34304A; background: {{f.bg}}; color: {{f.fg}}; font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; font-weight: 700">{{f.label}}</button>
+</sc-for>
+<button type="button" aria-pressed="true" aria-label="Efecto en deck A" style="height: 26px; padding: 0; border-radius: 6px; border: 1px solid {{accentA}}; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 700">→A</button>
+<button type="button" aria-pressed="false" aria-label="Efecto en deck B" style="height: 26px; padding: 0; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 700">→B</button>
+</div>
+</div>
+
+<div style="border-top: 1px solid #2A2639; padding-top: 8px; display: flex; align-items: center; gap: 8px">
+<label for="placas-vol" style="font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap">Placas</label>
+<input id="placas-vol" type="range" min="0" max="100" value="{{placasVol}}" onChange="{{onPlacas}}" style="flex: 1 1 auto; min-width: 0; accent-color: #FFE500">
+<span style="font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; width: 32px; text-align: right">{{placasVol}}%</span>
+</div>
+
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-weight: 700; font-size: 12px; color: {{accentA}}">A</span>
+<input aria-label="Crossfader" type="range" min="0" max="100" value="{{xfader}}" onChange="{{onXfader}}" style="flex: 1 1 auto; min-width: 0; accent-color: #F2EFF7">
+<span style="font-weight: 700; font-size: 12px; color: {{accentB}}">B</span>
+</div>
+</section>
+</div>
+
+<!-- Biblioteca -->
+<section aria-label="Biblioteca" style="flex: 1 1 0; min-height: 0; display: flex; align-items: stretch; background: #14121F; border: 1px solid #2A2639; border-radius: 12px; padding: 12px; box-sizing: border-box">
+
+<nav aria-label="Colecciones" style="flex: 0 0 {{leftW}}px; min-width: 0; height: 100%; display: flex; flex-direction: column; gap: 4px; overflow-y: auto">
+<div style="font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 8px">Biblioteca</div>
+<sc-for list="{{collections}}" as="col" hint-placeholder-count="6">
+<button type="button" onClick="{{col.pick}}" aria-pressed="{{col.pressed}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 34px; padding: 0 10px; border-radius: 6px; border: 0; background: {{col.bg}}; color: #F2EFF7; font-size: 13px; text-align: left">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{col.label}}</span>
+<span style="font-size: 11px; color: #ABA4C0">{{col.count}}</span>
+</button>
+</sc-for>
+</nav>
+
+<button type="button" aria-label="Redimensionar el panel de colecciones" title="Arrastra para redimensionar" onPointerDown="{{startLeft}}" onPointerMove="{{moveDrag}}" onPointerUp="{{endDrag}}" onKeyDown="{{keyLeft}}" style="flex: 0 0 12px; height: 100%; margin: 0 4px; padding: 0; border: 0; background: transparent; cursor: col-resize; display: flex; justify-content: center; touch-action: none">
+<span aria-hidden="true" style="width: 2px; height: 100%; border-radius: 1px; background: {{leftHandle}}"></span>
+</button>
+
+<div style="flex: 1 1 360px; min-width: 0; height: 100%; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px">
+<div style="flex: 1 1 220px; display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px; border-radius: 8px; border: 1px solid #34304A; background: #0A0A12">
+<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ABA4C0" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<input aria-label="Buscar pistas" placeholder="Buscar por título, artista, BPM o tono…" style="flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent; color: #F2EFF7; font-size: 13px; font-family: inherit">
+</div>
+<div style="display: flex; align-items: center; gap: 6px">
+<label for="lib-filter" style="font-size: 12px; color: #ABA4C0">Filtro</label>
+<select id="lib-filter" style="height: 36px; border-radius: 8px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 12px; padding: 0 8px">
+<option>Todas las pistas</option>
+<option>BPM ±3 del deck A</option>
+<option>Tono compatible con A</option>
+<option>Sin analizar</option>
+</select>
+</div>
+<button type="button" style="height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 12px; font-weight: 600">Analizar</button>
+<button type="button" style="height: 36px; padding: 0 12px; border-radius: 8px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 12px; font-weight: 600">Importar</button>
+</div>
+<div style="flex: 1 1 auto; min-height: 0; overflow: auto; border: 1px solid #2A2639; border-radius: 8px">
+<table style="width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13px">
+<thead>
+<tr style="background: #1D1A2B; text-align: left">
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em; width: 36px">Deck</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">Título</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">Artista</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">BPM</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">Tono</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">Duración</th>
+<th scope="col" style="padding: 8px 10px; font-size: 11px; font-weight: 600; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.06em">Cargar</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{tracks}}" as="r" hint-placeholder-count="7">
+<tr style="border-top: 1px solid #262236; background: {{r.rowBg}}">
+<td style="padding: 8px 10px"><span style="display: inline-flex; width: 22px; height: 22px; border-radius: 5px; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; background: {{r.badgeBg}}; color: #0A0A12">{{r.badge}}</span></td>
+<td style="padding: 8px 10px; font-weight: 500">{{r.title}}</td>
+<td style="padding: 8px 10px; color: #D0CADD">{{r.artist}}</td>
+<td style="padding: 8px 10px; font-family: JetBrains Mono, ui-monospace, monospace">{{r.bpm}}</td>
+<td style="padding: 8px 10px; font-family: JetBrains Mono, ui-monospace, monospace">{{r.key}}</td>
+<td style="padding: 8px 10px; font-family: JetBrains Mono, ui-monospace, monospace">{{r.dur}}</td>
+<td style="padding: 6px 10px">
+<div style="display: flex; gap: 6px">
+<button type="button" aria-label="{{r.loadA}}" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid {{accentA}}; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 700">A</button>
+<button type="button" aria-label="{{r.loadB}}" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid {{accentB}}; background: #1D1A2B; color: #F2EFF7; font-size: 11px; font-weight: 700">B</button>
+<button type="button" onClick="{{r.addAm}}" aria-label="{{r.addAmLabel}}" style="width: 28px; height: 28px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 15px; font-weight: 700; line-height: 1">+</button>
+</div>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+
+<sc-if value="{{amOpen}}" hint-placeholder-val="{{ true }}">
+<button type="button" aria-label="Redimensionar el panel de Auto Mix" title="Arrastra para redimensionar" onPointerDown="{{startRight}}" onPointerMove="{{moveDrag}}" onPointerUp="{{endDrag}}" onKeyDown="{{keyRight}}" style="flex: 0 0 12px; height: 100%; margin: 0 4px; padding: 0; border: 0; background: transparent; cursor: col-resize; display: flex; justify-content: center; touch-action: none">
+<span aria-hidden="true" style="width: 2px; height: 100%; border-radius: 1px; background: {{rightHandle}}"></span>
+</button>
+<aside aria-label="Auto Mix" style="flex: 0 0 {{rightW}}px; min-width: 0; height: 100%; display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px; border: 1px solid #2A2639; background: #0A0A12; box-sizing: border-box">
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<div style="display: flex; align-items: baseline; gap: 8px; min-width: 0">
+<h2 style="margin: 0; font-size: 14px; font-weight: 700; white-space: nowrap">Auto Mix</h2>
+<span style="font-size: 11px; color: #ABA4C0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{amCountLabel}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 6px; flex: 0 0 auto">
+<button type="button" role="switch" aria-checked="{{amPressed}}" aria-label="Auto Mix activo" title="Activar o pausar Auto Mix" onClick="{{amToggle}}" style="display: flex; align-items: center; gap: 6px; height: 26px; padding: 0 8px; border-radius: 13px; border: 1px solid #34304A; background: transparent; color: #ABA4C0; font-size: 11px; font-weight: 600">
+<span aria-hidden="true" style="position: relative; display: inline-block; width: 24px; height: 12px; border-radius: 6px; background: {{swTrack}}">
+<span style="position: absolute; top: 2px; left: {{swKnob}}px; width: 8px; height: 8px; border-radius: 50%; background: {{swDot}}"></span>
+</span>
+<span>{{swLabel}}</span>
+</button>
+<button type="button" onClick="{{collapseAm}}" aria-label="Contraer el panel de Auto Mix" style="width: 26px; height: 26px; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; display: flex; align-items: center; justify-content: center; padding: 0">
+<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+</button>
+</div>
+</div>
+
+<sc-if value="{{anyMenuOpen}}" hint-placeholder-val="{{ false }}">
+<button type="button" aria-label="Cerrar menú" onClick="{{closeMenus}}" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 25; padding: 0; border: 0; background: transparent; cursor: default"></button>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; align-items: center; gap: 8px; min-width: 0">
+<div role="toolbar" aria-label="Opciones de Auto Mix" style="display: flex; align-items: center; gap: 4px; flex: 0 0 auto">
+<sc-for list="{{amMenus}}" as="m" hint-placeholder-count="4">
+<div style="position: relative; z-index: {{m.z}}">
+<button type="button" onClick="{{m.toggle}}" onMouseEnter="{{m.enter}}" onMouseLeave="{{m.leave}}" onFocus="{{m.enter}}" onBlur="{{m.leave}}" aria-label="{{m.label}}" aria-haspopup="menu" aria-expanded="{{m.expanded}}" style="width: 30px; height: 30px; border-radius: 7px; border: 1px solid {{m.border}}; background: {{m.bg}}; color: #F2EFF7; display: flex; align-items: center; justify-content: center; padding: 0">
+<sc-if value="{{m.isDecks}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="12" r="4"></circle><circle cx="17" cy="12" r="4"></circle><path d="M7 12h.01M17 12h.01"></path></svg></sc-if>
+<sc-if value="{{m.isTrans}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h4l10 10h4"></path><path d="M3 17h4L17 7h4"></path></svg></sc-if>
+<sc-if value="{{m.isOrder}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"></path><path d="M4 20L21 3"></path><path d="M21 16v5h-5"></path><path d="M15 15l6 6"></path><path d="M4 4l5 5"></path></svg></sc-if>
+<sc-if value="{{m.isList}}" hint-placeholder-val="{{ false }}"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h12M9 12h12M9 18h12"></path><path d="M4 6h.01M4 12h.01M4 18h.01"></path></svg></sc-if>
+</button>
+<sc-if value="{{m.showTip}}" hint-placeholder-val="{{ false }}">
+<div role="tooltip" style="position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%); padding: 4px 8px; border-radius: 6px; background: #F2EFF7; color: #0A0A12; font-size: 11px; font-weight: 600; white-space: nowrap; pointer-events: none; z-index: 40">{{m.label}}</div>
+</sc-if>
+<sc-if value="{{m.open}}" hint-placeholder-val="{{ false }}">
+<div role="menu" aria-label="{{m.label}}" style="position: absolute; top: calc(100% + 6px); left: {{m.left}}; right: {{m.right}}; width: 232px; display: flex; flex-direction: column; gap: 2px; padding: 6px; border-radius: 10px; border: 1px solid #34304A; background: #1D1A2B; box-shadow: 0 8px 24px rgba(0,0,0,0.45); z-index: 30; box-sizing: border-box">
+<sc-for list="{{m.items}}" as="it" hint-placeholder-count="4">
+<sc-if value="{{it.isHeader}}" hint-placeholder-val="{{ false }}"><div style="padding: 6px 8px 2px; font-size: 11px; color: #ABA4C0; text-transform: uppercase; letter-spacing: 0.08em">{{it.label}}</div></sc-if>
+<sc-if value="{{it.isSep}}" hint-placeholder-val="{{ false }}"><div role="separator" style="height: 1px; margin: 4px 2px; background: #34304A"></div></sc-if>
+<sc-if value="{{it.isItem}}" hint-placeholder-val="{{ true }}"><button type="button" role="{{it.role}}" aria-checked="{{it.checked}}" onClick="{{it.pick}}" style="display: flex; align-items: center; gap: 8px; width: 100%; height: 32px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; color: #F2EFF7; font-size: 13px; text-align: left"><span aria-hidden="true" style="width: 14px; flex: 0 0 auto; color: {{accentA}}; font-weight: 700">{{it.mark}}</span><span>{{it.label}}</span></button></sc-if>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<div title="{{amSummary}}" style="flex: 1 1 auto; min-width: 0; font-size: 11px; color: #ABA4C0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{amSummary}}</div>
+</div>
+</div>
+
+<ol aria-label="Cola de Auto Mix" style="flex: 1 1 auto; min-height: 0; overflow-y: auto; list-style: none; margin: 0; padding: 0; border: 1px solid #2A2639; border-radius: 8px">
+<sc-for list="{{queueRows}}" as="q" hint-placeholder-count="7">
+<li style="display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid #262236; background: {{q.rowBg}}; color: {{q.fg}}">
+<span style="width: 16px; flex: 0 0 auto; font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; color: #ABA4C0">{{q.num}}</span>
+<div style="flex: 1 1 auto; min-width: 0">
+<div style="display: flex; align-items: center; gap: 6px; min-width: 0">
+<span style="font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0">{{q.title}}</span>
+<span style="flex: 0 0 auto; display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 9px; font-size: 11px; font-weight: 700; white-space: nowrap; background: {{q.badgeBg}}; color: {{q.badgeFg}}">{{q.status}}</span>
+<sc-if value="{{q.dupe}}" hint-placeholder-val="{{ false }}"><span style="flex: 0 0 auto; font-size: 11px; font-weight: 600; color: #FFD23C">Duplicada</span></sc-if>
+</div>
+<div style="font-size: 11px; color: #ABA4C0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{q.meta}}</div>
+</div>
+<span style="flex: 0 0 auto; font-family: JetBrains Mono, ui-monospace, monospace; font-size: 11px; color: #ABA4C0">{{q.dur}}</span>
+<button type="button" onClick="{{q.remove}}" disabled="{{q.lock}}" aria-label="{{q.removeLabel}}" style="width: 24px; height: 24px; flex: 0 0 auto; border-radius: 6px; border: 1px solid #34304A; background: #1D1A2B; color: #F2EFF7; font-size: 13px; line-height: 1; padding: 0">×</button>
+</li>
+</sc-for>
+<sc-if value="{{queueEmpty}}" hint-placeholder-val="{{ false }}">
+<li style="padding: 24px 12px; text-align: center; font-size: 12px; color: #ABA4C0">La lista está vacía. Agrega pistas con el botón + de la biblioteca.</li>
+</sc-if>
+</ol>
+</aside>
+</sc-if>
+
+<sc-if value="{{amClosed}}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{expandAm}}" aria-label="Mostrar el panel de Auto Mix" style="flex: 0 0 44px; height: 100%; box-sizing: border-box; margin-left: 8px; padding: 12px 0; border-radius: 10px; border: 1px solid #2A2639; background: #0A0A12; color: #F2EFF7; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: {{amDot}}"></span>
+<span style="writing-mode: vertical-rl; font-size: 12px; font-weight: 600; letter-spacing: 0.06em">{{amStripLabel}}</span>
+</button>
+</sc-if>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accentA":{"editor":"color","default":"#00D9FF","options":["#00D9FF","#FFE500","#39FF6A"]},"accentB":{"editor":"color","default":"#FF2E9A","options":["#FF2E9A","#FF7A00","#FF2D3F"]},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { modeA: 'hotcue', modeB: 'placas', playA: true, playB: false, pitchA: 0, pitchB: -1.6, faderA: 85, faderB: 70, xfader: 50, placasVol: 70, collection: 'all',
+      libTab: 'automix', amOn: true, amDeckMode: 'alt', amTrim: true, amBpm: true, amRandom: false, amAutoRemove: false, amBeats: '16', amSecs: '8', leftW: 220, rightW: 400, amOpen: true, amOptsOpen: true, dragging: null, openMenu: null, tipMenu: null,
+      queue: [
+        { id: 'q1', title: 'Calor de Verano', artist: 'Nativa Club', bpm: '124', key: '9B', dur: '3:58', status: 'played' },
+        { id: 'q2', title: 'Luces de Neón', artist: 'Varela & Sonido Norte', bpm: '124', key: '8A', dur: '6:12', status: 'playing' },
+        { id: 'q3', title: 'Medianoche en Polanco', artist: 'Kiro Beat', bpm: '126', key: '5A', dur: '5:48', status: 'next' },
+        { id: 'q4', title: 'Fuego Lento', artist: 'La Brava', bpm: '122', key: '11B', dur: '4:55', status: 'queued' },
+        { id: 'q5', title: 'Pulso', artist: 'Dani Ortega', bpm: '128', key: '2A', dur: '6:30', status: 'queued' },
+        { id: 'q6', title: 'Calor de Verano', artist: 'Nativa Club', bpm: '124', key: '9B', dur: '3:58', status: 'queued' },
+        { id: 'q7', title: 'Ritmo Callejero', artist: 'Los Bajos', bpm: '126', key: '7A', dur: '5:21', status: 'queued' }
+      ] };
+  }
+
+  wave(seed, n, on, off, emptyBefore) {
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      if (emptyBefore && i < n / 2) { out.push({ h: 2, c: '#262236' }); continue; }
+      const env = 0.35 + 0.65 * Math.abs(Math.sin(i * 0.045 + seed));
+      const tex = 0.45 + 0.55 * Math.abs(Math.sin(i * 0.9 + seed * 3) * Math.cos(i * 0.31 + seed));
+      const h = Math.max(4, Math.round(48 * env * tex));
+      out.push({ h: h, c: i < n / 2 ? off : on });
+    }
+    return out;
+  }
+
+  pads(mode) {
+    const empty = { bg: '#262236', fg: '#ABA4C0' };
+    if (mode === 'hotcue') {
+      const labels = ['Intro', 'Verso', 'Build', 'Drop', 'Break', 'Drop 2', 'Outro', 'Vacío'];
+      const colors = ['#00D9FF', '#39FF6A', '#FFE500', '#FF2E9A', '#FF7A00', '#FF2D3F', '#00D9FF', null];
+      return labels.map((l, i) => colors[i] ? { num: String(i + 1), label: l, bg: colors[i], fg: '#0A0A12' } : Object.assign({ num: String(i + 1), label: l }, empty));
+    }
+    if (mode === 'loop') {
+      return ['1/8', '1/4', '1/2', '1', '2', '4', '8', '16'].map((l, i) => ({ num: String(i + 1), label: l + ' beat', bg: l === '4' ? '#39FF6A' : '#173A26', fg: l === '4' ? '#0A0A12' : '#F2EFF7' }));
+    }
+    if (mode === 'fx') {
+      return ['Echo', 'Reverb', 'Filtro', 'Flanger', 'Delay', 'Phaser', 'Gate', 'Roll'].map((l, i) => ({ num: String(i + 1), label: l, bg: i === 0 ? '#FF7A00' : '#3D2614', fg: i === 0 ? '#0A0A12' : '#F2EFF7' }));
+    }
+    const placas = ['Saludo DJ', 'Air horn', 'Sirena', 'Arriba las manos', 'Placa evento', 'Rewind', 'Explosión', 'Vacío'];
+    return placas.map((l, i) => i < 7 ? { num: String(i + 1), label: l, bg: i % 2 === 0 ? '#FFE500' : '#FFC93C', fg: '#0A0A12' } : Object.assign({ num: String(i + 1), label: l }, empty));
+  }
+
+  startDrag(side, e) {
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+    this.drag = { side: side, x: e.clientX, w: side === 'left' ? this.state.leftW : this.state.rightW };
+    this.setState({ dragging: side });
+  }
+
+  moveDrag(e) {
+    const d = this.drag;
+    if (!d) return;
+    const dx = e.clientX - d.x;
+    if (d.side === 'left') this.setState({ leftW: Math.max(160, Math.min(360, Math.round(d.w + dx))) });
+    else this.setState({ rightW: Math.max(320, Math.min(640, Math.round(d.w - dx))) });
+  }
+
+  endDrag(e) {
+    try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (err) {}
+    this.drag = null;
+    this.setState({ dragging: null });
+  }
+
+  keyResize(side, e) {
+    const step = e.key === 'ArrowLeft' ? -16 : e.key === 'ArrowRight' ? 16 : 0;
+    if (!step) return;
+    e.preventDefault();
+    if (side === 'left') this.setState({ leftW: Math.max(160, Math.min(360, this.state.leftW + step)) });
+    else this.setState({ rightW: Math.max(320, Math.min(640, this.state.rightW - step)) });
+  }
+
+  shuffleQueue() {
+    const q = this.state.queue;
+    const fixed = q.filter((x) => x.status !== 'queued');
+    const rest = q.filter((x) => x.status === 'queued').slice();
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = rest[i]; rest[i] = rest[j]; rest[j] = t;
+    }
+    this.setState({ queue: fixed.concat(rest) });
+  }
+
+  removeDupes() {
+    const seen = {};
+    this.setState({ queue: this.state.queue.filter((x) => { if (seen[x.title] && x.status !== 'playing') return false; seen[x.title] = true; return true; }) });
+  }
+
+  addToQueue(r) {
+    const item = { id: 'q' + Date.now() + Math.floor(Math.random() * 1000), title: r[0], artist: r[1], bpm: r[2], key: r[3], dur: r[4], status: 'queued' };
+    this.setState({ queue: this.state.queue.concat([item]) });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const a = this.props.accentA ?? '#00D9FF';
+    const b = this.props.accentB ?? '#FF2E9A';
+    const fmtPitch = (p) => (p > 0 ? '+' : '') + Number(p).toFixed(1) + '%';
+    const bpmOf = (base, p) => (base * (1 + Number(p) / 100)).toFixed(1);
+    const modes = [{ id: 'hotcue', label: 'Hot cue' }, { id: 'loop', label: 'Loop' }, { id: 'fx', label: 'FX' }, { id: 'placas', label: 'Placas' }];
+    const tabs = (key, accent) => modes.map((m) => {
+      const sel = s[key] === m.id;
+      return { label: m.label, pick: () => this.setState({ [key]: m.id }), bg: sel ? accent : 'transparent', fg: sel ? '#0A0A12' : '#D0CADD', border: sel ? accent : '#34304A', pressed: sel ? 'true' : 'false' };
+    });
+    const loops = (accent) => ['1/2', '1', '2', '4', '8', '16'].map((l) => ({ label: l, bg: l === '4' ? accent : '#1D1A2B', fg: l === '4' ? '#0A0A12' : '#F2EFF7' }));
+
+    const deckA = {
+      order: 0, letter: 'A', aria: 'Deck A', accent: a,
+      title: 'Luces de Neón', artist: 'Varela & Sonido Norte', key: '8A',
+      bpm: bpmOf(124, s.pitchA), elapsed: '2:41', remaining: '-3:31', progress: 43, jogRot: 118,
+      jogAria: 'Jog wheel del deck A, 2:41 transcurrido',
+      pitchId: 'pitch-a', pitchVal: s.pitchA, pitchLabel: fmtPitch(s.pitchA),
+      onPitch: (e) => this.setState({ pitchA: e.target.value }),
+      togglePlay: () => this.setState({ playA: !s.playA }),
+      playLabel: s.playA ? 'PAUSA' : 'PLAY', playPressed: s.playA ? 'true' : 'false',
+      playBg: s.playA ? a : '#1D1A2B', playFg: s.playA ? '#0A0A12' : '#F2EFF7',
+      syncPressed: 'false', syncBg: '#1D1A2B', syncFg: '#F2EFF7',
+      tabs: tabs('modeA', a), pads: this.pads(s.modeA), loops: loops(a)
+    };
+    const deckB = {
+      order: 2, letter: 'B', aria: 'Deck B', accent: b,
+      title: 'Medianoche en Polanco', artist: 'Kiro Beat', key: '5A',
+      bpm: bpmOf(126, s.pitchB), elapsed: '0:00', remaining: '-5:48', progress: 0, jogRot: 0,
+      jogAria: 'Jog wheel del deck B, en el punto de cue',
+      pitchId: 'pitch-b', pitchVal: s.pitchB, pitchLabel: fmtPitch(s.pitchB),
+      onPitch: (e) => this.setState({ pitchB: e.target.value }),
+      togglePlay: () => this.setState({ playB: !s.playB }),
+      playLabel: s.playB ? 'PAUSA' : 'PLAY', playPressed: s.playB ? 'true' : 'false',
+      playBg: s.playB ? b : '#1D1A2B', playFg: s.playB ? '#0A0A12' : '#F2EFF7',
+      syncPressed: 'true', syncBg: b, syncFg: '#0A0A12',
+      tabs: tabs('modeB', b), pads: this.pads(s.modeB), loops: loops(b)
+    };
+
+    const waves = [
+      { letter: 'A', accent: a, aria: 'Forma de onda del deck A con loop activo', loop: true, bars: this.wave(1.3, 160, a, '#0B4C5A', false) },
+      { letter: 'B', accent: b, aria: 'Forma de onda del deck B en el inicio de la pista', loop: false, bars: this.wave(2.7, 160, b, '#5E1A3E', true) }
+    ];
+
+    const knob = (label, v, letter) => ({ label: label, rot: Math.round(v * 135), aria: 'Canal ' + letter + ', ' + label + ' ' + (v === 0 ? 'al centro' : (v > 0 ? '+' : '') + Math.round(v * 100) + '%') });
+    const vu = (play, level) => {
+      const lit = play ? level : 0;
+      const segs = [];
+      for (let i = 13; i >= 0; i--) {
+        const on = i < lit;
+        segs.push({ c: on ? (i >= 12 ? '#FF2D3F' : i >= 9 ? '#FFE500' : '#39FF6A') : '#262236' });
+      }
+      return segs;
+    };
+    const chans = [
+      { letter: 'A', accent: a, fader: s.faderA, faderAria: 'Volumen del canal A', onFader: (e) => this.setState({ faderA: e.target.value }),
+        knobs: [knob('Gain', 0, 'A'), knob('Agudos', 0.1, 'A'), knob('Medios', -0.2, 'A'), knob('Graves', -0.6, 'A'), knob('Filtro', 0, 'A')],
+        vu: vu(s.playA, Math.round(11 * s.faderA / 100)) },
+      { letter: 'B', accent: b, fader: s.faderB, faderAria: 'Volumen del canal B', onFader: (e) => this.setState({ faderB: e.target.value }),
+        knobs: [knob('Gain', 0.1, 'B'), knob('Agudos', 0, 'B'), knob('Medios', 0, 'B'), knob('Graves', 0, 'B'), knob('Filtro', 0, 'B')],
+        vu: vu(s.playB, Math.round(11 * s.faderB / 100)) }
+    ];
+
+    const fxBeats = ['1/4', '1/2', '1', '2'].map((l) => ({ label: l, bg: l === '1/2' ? '#F2EFF7' : '#1D1A2B', fg: l === '1/2' ? '#0A0A12' : '#F2EFF7' }));
+
+    const cols = [
+      { id: 'all', label: 'Todas las pistas', count: '1,284' },
+      { id: 'folders', label: 'Carpetas', count: '12' },
+      { id: 'boda', label: 'Playlist · Boda sábado', count: '48' },
+      { id: 'warm', label: 'Playlist · Warm-up', count: '22' },
+      { id: 'hist', label: 'Historial', count: '' },
+      { id: 'placas', label: 'Placas y drops', count: '36' }
+    ];
+    const collections = cols.map((c) => ({ label: c.label, count: c.count, pick: () => this.setState({ collection: c.id }), pressed: s.collection === c.id ? 'true' : 'false', bg: s.collection === c.id ? '#262236' : 'transparent' }));
+
+    const raw = [
+      ['Luces de Neón', 'Varela & Sonido Norte', '124', '8A', '6:12', 'A'],
+      ['Medianoche en Polanco', 'Kiro Beat', '126', '5A', '5:48', 'B'],
+      ['Fuego Lento', 'La Brava', '122', '11B', '4:55', ''],
+      ['Pulso', 'Dani Ortega', '128', '2A', '6:30', ''],
+      ['Calor de Verano', 'Nativa Club', '124', '9B', '3:58', ''],
+      ['Tierra Mojada', 'Ramiro Sosa', '120', '4A', '7:05', ''],
+      ['Ritmo Callejero', 'Los Bajos', '126', '7A', '5:21', '']
+    ];
+    const tracks = raw.map((r) => ({
+      title: r[0], artist: r[1], bpm: r[2], key: r[3], dur: r[4], badge: r[5],
+      badgeBg: r[5] === 'A' ? a : r[5] === 'B' ? b : 'transparent',
+      rowBg: r[5] ? '#1C1830' : 'transparent',
+      loadA: 'Cargar ' + r[0] + ' en el deck A', loadB: 'Cargar ' + r[0] + ' en el deck B',
+      addAm: () => this.addToQueue(r), addAmLabel: 'Agregar ' + r[0] + ' a Auto Mix'
+    }));
+
+    const pickBtn = (sel) => ({ bg: sel ? '#F2EFF7' : '#1D1A2B', fg: sel ? '#0A0A12' : '#F2EFF7', pressed: sel ? 'true' : 'false' });
+    const pending = s.queue.filter((x) => x.status !== 'played').length;
+    const libTabs = [{ id: 'tracks', label: 'Pistas' }, { id: 'automix', label: 'Auto Mix · ' + pending }].map((t) => {
+      const sel = s.libTab === t.id;
+      return { label: t.label, pick: () => this.setState({ libTab: t.id }), pressed: sel ? 'true' : 'false', bg: sel ? '#262236' : 'transparent', fg: sel ? '#F2EFF7' : '#D0CADD', border: sel ? '#433C5C' : '#34304A' };
+    });
+    const single = s.amDeckMode === 'single';
+    const nextDeck = single ? 'A' : 'B';
+    const amDeckOpts = [{ id: 'alt', label: 'Alternar A/B' }, { id: 'single', label: 'Un solo deck' }].map((o) => Object.assign({ label: o.label, pick: () => this.setState({ amDeckMode: o.id }) }, pickBtn(s.amDeckMode === o.id)));
+    const amTransOpts = [{ k: 'amTrim', label: 'Limpiar silencios' }, { k: 'amBpm', label: 'Emparejar BPM' }].map((o) => Object.assign({ label: o.label, pick: () => this.setState({ [o.k]: !s[o.k] }) }, pickBtn(s[o.k])));
+    const parts = [];
+    if (s.amTrim) parts.push('Sin silencios al inicio y al final');
+    if (s.amBpm) parts.push('tempo y fase emparejados');
+    const playing = s.queue.find((x) => x.status === 'playing');
+    const next = s.queue.find((x) => x.status === 'next');
+    const statusOf = (x) => {
+      if (x.status === 'played') return { status: 'Tocada', badgeBg: '#262236', badgeFg: '#ABA4C0', fg: '#ABA4C0', rowBg: 'transparent' };
+      if (x.status === 'playing') return { status: 'Sonando · A', badgeBg: a, badgeFg: '#0A0A12', fg: '#F2EFF7', rowBg: '#1C1830' };
+      if (x.status === 'next') return { status: single ? 'Siguiente · A (precarga)' : 'Siguiente · B', badgeBg: single ? '#F2EFF7' : b, badgeFg: '#0A0A12', fg: '#F2EFF7', rowBg: 'transparent' };
+      return { status: 'En cola', badgeBg: '#262236', badgeFg: '#F2EFF7', fg: '#F2EFF7', rowBg: 'transparent' };
+    };
+    const seenT = {};
+    const queueRows = s.queue.map((x, i) => {
+      const dupe = !!seenT[x.title];
+      seenT[x.title] = true;
+      return Object.assign({ num: String(i + 1), title: x.title, meta: x.artist + ' · ' + x.bpm + ' BPM · ' + x.key, artist: x.artist, bpm: x.bpm, key: x.key, dur: x.dur, dupe: dupe, lock: x.status === 'playing', removeLabel: 'Quitar ' + x.title + ' de la lista', remove: () => this.setState({ queue: s.queue.filter((y) => y.id !== x.id) }) }, statusOf(x));
+    });
+    const mk = (role, label, checked, fn, keepOpen) => ({
+      isItem: true, isHeader: false, isSep: false, role: role, label: label,
+      checked: role === 'menuitem' ? null : (checked ? 'true' : 'false'),
+      mark: role === 'menuitemradio' ? (checked ? '•' : '') : role === 'menuitemcheckbox' ? (checked ? '✓' : '') : '',
+      pick: () => { fn(); if (!keepOpen) this.setState({ openMenu: null }); }
+    });
+    const hd = (label) => ({ isItem: false, isHeader: true, isSep: false, label: label });
+    const sep = () => ({ isItem: false, isHeader: false, isSep: true, label: '' });
+    const durs = s.amBpm
+      ? ['8', '16', '32'].map((v) => mk('menuitemradio', v + ' beats', s.amBeats === v, () => this.setState({ amBeats: v }), true))
+      : ['4', '8', '12'].map((v) => mk('menuitemradio', v + ' segundos', s.amSecs === v, () => this.setState({ amSecs: v }), true));
+    const noop = () => {};
+    const menuDefs = [
+      { id: 'decks', label: 'Modo de decks', items: [
+        mk('menuitemradio', 'Alternar decks A/B', !single, () => this.setState({ amDeckMode: 'alt' }), true),
+        mk('menuitemradio', 'Un solo deck', single, () => this.setState({ amDeckMode: 'single' }), true)] },
+      { id: 'trans', label: 'Transición', items: [
+        mk('menuitemcheckbox', 'Limpiar silencios', s.amTrim, () => this.setState({ amTrim: !s.amTrim }), true),
+        mk('menuitemcheckbox', 'Emparejar BPM', s.amBpm, () => this.setState({ amBpm: !s.amBpm }), true),
+        sep(), hd(s.amBpm ? 'Duración en beats' : 'Duración en segundos')].concat(durs) },
+      { id: 'order', label: 'Orden de reproducción', items: [
+        mk('menuitemcheckbox', 'Aleatorio', s.amRandom, () => this.setState({ amRandom: !s.amRandom }), true),
+        mk('menuitem', 'Revolver lista', false, () => this.shuffleQueue(), false)] },
+      { id: 'list', label: 'Lista', items: [
+        mk('menuitem', 'Limpiar lista', false, () => this.setState({ queue: s.queue.filter((x) => x.status === 'playing') }), false),
+        mk('menuitem', 'Quitar tocadas', false, () => this.setState({ queue: s.queue.filter((x) => x.status !== 'played') }), false),
+        mk('menuitem', 'Quitar duplicadas', false, () => this.removeDupes(), false),
+        mk('menuitemcheckbox', 'Auto quitar tocadas', s.amAutoRemove, () => this.setState({ amAutoRemove: !s.amAutoRemove }), true),
+        sep(),
+        mk('menuitem', 'Guardar lista…', false, noop, false),
+        mk('menuitem', 'Cargar lista…', false, noop, false)] }
+    ];
+    const amMenus = menuDefs.map((m, i) => {
+      const open = s.openMenu === m.id;
+      return {
+        label: m.label, items: m.items, open: open, expanded: open ? 'true' : 'false',
+        showTip: s.tipMenu === m.id && !open, z: open ? 31 : 'auto',
+        toggle: () => this.setState({ openMenu: open ? null : m.id, tipMenu: null }),
+        enter: () => this.setState({ tipMenu: m.id }), leave: () => this.setState({ tipMenu: null }),
+        bg: open ? '#262236' : '#1D1A2B', border: open ? a : '#34304A',
+        left: i < 2 ? '0' : 'auto', right: i < 2 ? 'auto' : '0',
+        isDecks: m.id === 'decks', isTrans: m.id === 'trans', isOrder: m.id === 'order', isList: m.id === 'list'
+      };
+    });
+    const summary = [single ? 'Un solo deck' : 'Decks A/B'];
+    if (!s.amTrim && !s.amBpm) summary.push('Normal');
+    if (s.amTrim) summary.push('Sin silencios');
+    if (s.amBpm) summary.push('BPM emparejado');
+    summary.push(s.amBpm ? s.amBeats + ' beats' : s.amSecs + ' s');
+    if (s.amRandom) summary.push('Aleatorio');
+    if (s.amAutoRemove) summary.push('Auto quitar');
+    const amVals = {
+      amMenus: amMenus, anyMenuOpen: !!s.openMenu, closeMenus: () => this.setState({ openMenu: null }),
+      amSummary: summary.join(' · '),
+      swTrack: s.amOn ? a + '40' : '#34304A', swKnob: s.amOn ? 14 : 2, swDot: s.amOn ? a : '#6E6787', swLabel: s.amOn ? 'Activo' : 'Pausado',
+      libTabs: libTabs, showTracks: s.libTab === 'tracks', showAutomix: s.libTab === 'automix',
+      amToggle: () => this.setState({ amOn: !s.amOn }), amPressed: s.amOn ? 'true' : 'false',
+      amBtnLabel: s.amOn ? 'Auto Mix activo' : 'Iniciar Auto Mix', amBtnBg: s.amOn ? a : '#1D1A2B', amBtnFg: s.amOn ? '#0A0A12' : '#F2EFF7',
+      amNow: playing ? 'Sonando: ' + playing.title + ' · Deck A' : 'Nada sonando',
+      amNext: !s.amOn ? 'Auto Mix en pausa' : s.amRandom ? 'Siguiente: una pista al azar de la cola · transición en -3:31' : next ? 'Siguiente: ' + next.title + ' en Deck ' + nextDeck + (single ? ' (precarga)' : '') + ' · transición en -3:31' : 'No hay más pistas en la cola',
+      amDeckOpts: amDeckOpts, amDeckHint: single ? 'El deck activo precarga la siguiente; el otro queda libre' : 'La siguiente pista se carga en el deck libre',
+      amTransOpts: amTransOpts, amBpm: s.amBpm, amSecsShow: !s.amBpm, amBeats: s.amBeats, amSecs: s.amSecs,
+      onAmBeats: (e) => this.setState({ amBeats: e.target.value }), onAmSecs: (e) => this.setState({ amSecs: e.target.value }),
+      amTransHint: parts.length ? parts.join(' · ') : 'Normal: cada pista suena de inicio a fin',
+      amRandomToggle: () => this.setState({ amRandom: !s.amRandom }), amRandomPressed: pickBtn(s.amRandom).pressed, amRandomBg: pickBtn(s.amRandom).bg, amRandomFg: pickBtn(s.amRandom).fg,
+      amOrderHint: s.amRandom ? 'Elige la siguiente al azar sin cambiar la lista' : 'Revolver reordena la cola de forma permanente',
+      shuffleQueue: () => this.shuffleQueue(),
+      amAutoRemoveToggle: () => this.setState({ amAutoRemove: !s.amAutoRemove }), amAutoRemovePressed: pickBtn(s.amAutoRemove).pressed, amAutoRemoveBg: pickBtn(s.amAutoRemove).bg, amAutoRemoveFg: pickBtn(s.amAutoRemove).fg,
+      amAutoRemoveHint: s.amAutoRemove ? 'Cada pista sale de la lista al terminar' : 'Las tocadas se quedan marcadas en la lista',
+      clearQueue: () => this.setState({ queue: s.queue.filter((x) => x.status === 'playing') }),
+      removePlayed: () => this.setState({ queue: s.queue.filter((x) => x.status !== 'played') }),
+      removeDupes: () => this.removeDupes(),
+      queueRows: queueRows, queueEmpty: s.queue.length === 0,
+      leftW: s.leftW, rightW: s.rightW,
+      leftHandle: s.dragging === 'left' ? a : '#2E2A40', rightHandle: s.dragging === 'right' ? a : '#2E2A40',
+      startLeft: (e) => this.startDrag('left', e), startRight: (e) => this.startDrag('right', e),
+      moveDrag: (e) => this.moveDrag(e), endDrag: (e) => this.endDrag(e),
+      keyLeft: (e) => this.keyResize('left', e), keyRight: (e) => this.keyResize('right', e),
+      amOpen: s.amOpen, amClosed: !s.amOpen,
+      collapseAm: () => this.setState({ amOpen: false }), expandAm: () => this.setState({ amOpen: true }),
+      amCountLabel: pending + ' pistas por sonar',
+      amStripLabel: 'AUTO MIX · ' + pending,
+      amDot: s.amOn ? a : '#433C5C',
+      amOptsOpen: s.amOptsOpen, optsExpanded: s.amOptsOpen ? 'true' : 'false',
+      optsLabel: s.amOptsOpen ? 'Ocultar' : 'Mostrar',
+      toggleOpts: () => this.setState({ amOptsOpen: !s.amOptsOpen })
+    };
+
+    return {
+      accentA: a, accentB: b,
+      masterBpm: bpmOf(124, s.pitchA),
+      waves: waves, decks: [deckA, deckB], chans: chans, fxBeats: fxBeats,
+      placasVol: s.placasVol, onPlacas: (e) => this.setState({ placasVol: e.target.value }),
+      xfader: s.xfader, onXfader: (e) => this.setState({ xfader: e.target.value }),
+      collections: collections, tracks: tracks,
+      ...amVals
+    };
+  }
+}
+</script>
+</body>
+</html>
