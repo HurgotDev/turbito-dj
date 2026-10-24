@@ -1,0 +1,61 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: build-and-test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS
+            os: macos-latest
+            configure: macos-release
+            preset: macos-release
+            package: ditto -c -k --keepParent "build/macos-release/src/TurbitoDJ_artefacts/Release/Turbito DJ.app" "$ZIP"
+          - name: Windows
+            os: windows-latest
+            configure: windows
+            preset: windows-release
+            package: Compress-Archive -Path "build/windows/src/TurbitoDJ_artefacts/Release/Turbito DJ.exe", LICENSE -DestinationPath $env:ZIP
+    env:
+      ZIP: TurbitoDJ-${{ matrix.name }}.zip
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # Sources and download stamps only: *-build dirs hold per-tree outputs.
+      - uses: actions/cache@v6
+        with:
+          path: |
+            build/_deps/*-src
+            build/_deps/*-subbuild
+          key: deps-${{ runner.os }}-${{ hashFiles('cmake/Dependencies.cmake') }}
+
+      - name: Configure
+        run: cmake --preset ${{ matrix.configure }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }} --parallel
+
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }}
+
+      - name: Package
+        run: ${{ matrix.package }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: TurbitoDJ-${{ matrix.name }}-${{ github.sha }}
+          path: ${{ env.ZIP }}
+          retention-days: 7
+          if-no-files-found: error

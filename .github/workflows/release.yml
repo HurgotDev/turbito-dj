@@ -1,0 +1,102 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read version and release notes
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v=$(sed -nE 's/^project\(TurbitoDJ VERSION ([0-9]+\.[0-9]+\.[0-9]+).*/\1/p' CMakeLists.txt)
+          [ -n "$v" ] || { echo "::error::Version not found in CMakeLists.txt"; exit 1; }
+          if gh release view "v$v" >/dev/null 2>&1 || git ls-remote --exit-code --tags origin "refs/tags/v$v" >/dev/null; then
+            echo "::error::Release or tag v$v already exists"; exit 1
+          fi
+          awk -v h="## [$v]" '/^## \[/ { f = index($0, h) == 1; next } /^\[[^]]+\]: / { f = 0 } f' CHANGELOG.md > notes.md
+          grep -q '[^[:space:]]' notes.md || { echo "::error::No CHANGELOG.md section for $v"; exit 1; }
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: notes
+          path: notes.md
+          if-no-files-found: error
+
+  build:
+    needs: version
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS
+            os: macos-latest
+            configure: macos-release
+            preset: macos-release
+            package: ditto -c -k --keepParent "build/macos-release/src/TurbitoDJ_artefacts/Release/Turbito DJ.app" "$ZIP"
+          - name: Windows
+            os: windows-latest
+            configure: windows
+            preset: windows-release
+            package: Compress-Archive -Path "build/windows/src/TurbitoDJ_artefacts/Release/Turbito DJ.exe", LICENSE -DestinationPath $env:ZIP
+    env:
+      ZIP: TurbitoDJ-${{ needs.version.outputs.version }}-${{ matrix.name }}.zip
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/cache@v6
+        with:
+          path: |
+            build/_deps/*-src
+            build/_deps/*-subbuild
+          key: deps-${{ runner.os }}-${{ hashFiles('cmake/Dependencies.cmake') }}
+
+      - name: Configure
+        run: cmake --preset ${{ matrix.configure }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }} --parallel
+
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }}
+
+      - name: Package
+        run: ${{ matrix.package }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.name }}
+          path: ${{ env.ZIP }}
+          if-no-files-found: error
+
+  publish:
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          gh release create "v$VERSION" --draft --title "Turbito DJ $VERSION" \
+            --notes-file dist/notes.md --target "${{ github.sha }}" dist/*.zip
