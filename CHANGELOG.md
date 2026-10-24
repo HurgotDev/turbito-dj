@@ -29,6 +29,13 @@ es el texto del Release en GitHub.
   elección se recuerda al reabrir la app.
 - Controles provisionales (Cargar, Play, CUE, Ajustes de audio) hasta la UI
   del diseño en la fase 4.
+- Segundo deck (B) con Play/Pausa y CUE, y atajos `Enter` (Play/Pausa) y
+  `P` (CUE).
+- Mezclador de 2 canales: gain (±12 dB), EQ de 3 bandas (Agudos, Medios,
+  Graves) con kill al mínimo y hasta +6 dB, filtro pasa-bajos/pasa-altos en
+  un solo knob, fader de volumen y vúmetro por canal.
+- Crossfader con curva ajustable, de suave (potencia constante) a corte.
+- Doble clic en cualquier knob o fader lo devuelve a su valor por defecto.
 
 ### Corregido
 

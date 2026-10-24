@@ -149,10 +149,10 @@ UI ◄── EngineSnapshot { DeckSnapshot decks[2] } (+ channelPeak) ◄── 
 
 ## Checklist
 
-- [ ] T1 – Core: acciones y snapshots
-- [ ] T2 – Engine: `Crossfader` y `Channel`
-- [ ] T3 – Engine: dos decks en `AudioEngine`
-- [ ] T4 – App: UI provisional de dos decks y mezclador
+- [x] T1 – Core: acciones y snapshots
+- [x] T2 – Engine: `Crossfader` y `Channel`
+- [x] T3 – Engine: dos decks en `AudioEngine`
+- [x] T4 – App: UI provisional de dos decks y mezclador
 - [ ] Checkpoint: el usuario prueba la app con audio real
-- [ ] T5 – README, CHANGELOG y PR a `develop`
+- [x] T5 – README, CHANGELOG y PR a `develop`
 - [ ] "Build & Test" en verde en macOS y Windows
