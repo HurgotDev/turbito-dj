@@ -33,33 +33,32 @@ Track* Deck::setTrack(Track* next)
     return previous;
 }
 
-void Deck::handle(const ActionEvent& event)
+void Deck::play(bool pressed)
+{
+    if (track == nullptr || ! pressed)
+        return;
+
+    if (cueHeld)
+    {
+        startPlayback();
+        previewing = false;
+    }
+    else if (playing)
+    {
+        stopPlayback();
+    }
+    else
+    {
+        startPlayback();
+    }
+}
+
+void Deck::cue(bool pressed)
 {
     if (track == nullptr)
         return;
 
-    const bool pressed = event.value >= 0.5f;
-
-    if (event.action == Action::DeckA_Play)
-    {
-        if (! pressed)
-            return;
-
-        if (cueHeld)
-        {
-            startPlayback();
-            previewing = false;
-        }
-        else if (playing)
-        {
-            stopPlayback();
-        }
-        else
-        {
-            startPlayback();
-        }
-    }
-    else if (pressed)
+    if (pressed)
     {
         cueHeld = true;
 
