@@ -34,9 +34,11 @@ libres. No se compra ninguna licencia comercial.
   BSD, Apache-2.0, dominio público…). Nada propietario ni solo comercial.
 - La app no puede publicarse en la Mac App Store (incompatible con GPL); se
   distribuye como descarga firmada y notarizada.
-- Rubber Band se usa bajo su opción "GPL v2 o posterior", compatible con
-  AGPLv3; confirmarlo al integrarlo en la fase 6.
-- El SDK de ASIO (Windows) tiene licencia propia de Steinberg; revisar su
-  compatibilidad con AGPLv3 antes de habilitar ASIO.
+- Rubber Band se usa bajo "GPL v2 o posterior" (verificado en la cabecera de
+  `RubberBandStretcher.h`), que permite tomarla como GPLv3, compatible con
+  AGPLv3.
+- El SDK de ASIO (Windows) tiene licencia doble desde octubre de 2025:
+  propietaria o GPLv3. Se usa bajo GPLv3, compatible con AGPLv3. Revisar el
+  texto de la licencia del SDK al habilitar ASIO.
 - Si en el futuro se quisiera vender con código cerrado, habría que comprar
   las licencias comerciales o reemplazar las dependencias copyleft.
