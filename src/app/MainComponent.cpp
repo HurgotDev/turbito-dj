@@ -168,7 +168,7 @@ void MainComponent::chooseFile()
                 }
 
                 const auto name = (*track)->name;
-                safe->trackName = safe->engine.load(std::move(*track)) ? name : juce::String(strings::loadFailed);
+                safe->trackName = safe->engine.load(0, std::move(*track)) ? name : juce::String(strings::loadFailed);
             });
         });
     });
@@ -198,7 +198,7 @@ void MainComponent::openAudioSettings()
 
 void MainComponent::timerCallback()
 {
-    const auto& snapshot = engine.snapshot();
+    const auto& snapshot = engine.snapshot().decks[0];
     auto text = trackName;
 
     if (snapshot.loaded.load())

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "core/Action.h"
 #include "core/Track.h"
 
 // Transport and cue for one deck. Positions are in samples of the track.
@@ -11,7 +10,9 @@ public:
     // Non-owning. Resets position and cue to 0 and pauses. Returns the old track.
     Track* setTrack(Track* track);
 
-    void handle(const ActionEvent& event);
+    // Play toggles play/pause on press; CUE is held. Releasing play does nothing.
+    void play(bool pressed);
+    void cue(bool pressed);
 
     // Adds the deck output to outputs[0..numChannels). Never allocates.
     void render(float* const* outputs, int numChannels, int numSamples, double deviceRate);
