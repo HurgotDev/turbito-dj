@@ -37,7 +37,7 @@ C++20 sobre JUCE 9, compilado con CMake. Un solo código base genera la app para
 | Tono | Essentia (`KeyExtractor`), notación Camelot | Mostrar tonos como 8A o 5A |
 | Base de datos | SQLite (`sqlite3` embebido) | Biblioteca, análisis, hot cues y playlists |
 | Pruebas | Catch2 + CTest | Pruebas unitarias del motor |
-| CI | GitHub Actions (macOS y Windows) | Build y pruebas en cada push |
+| CI | GitHub Actions: un workflow manual por plataforma (macOS y Windows) | Build y pruebas a demanda; obligatorio antes de cerrar cada fase |
 
 Las fuentes de la UI son Inter y JetBrains Mono, y Titan One solo para el logotipo, empaquetadas como `BinaryData`.
 

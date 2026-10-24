@@ -60,6 +60,13 @@ ctest --preset windows-debug
 El build Release de macOS es Universal (arm64 + x86_64) con LTO, y su enlace
 tarda varios minutos.
 
+## CI
+
+Hay un workflow por plataforma (`CI macOS` y `CI Windows`) y ninguno corre
+solo: se lanzan a mano desde la pestaña Actions ("Run workflow") o con
+`gh workflow run ci-macos.yml` / `gh workflow run ci-windows.yml`. Antes de
+cerrar cada fase deben quedar los dos en verde.
+
 ## Estructura del repositorio
 
 ```

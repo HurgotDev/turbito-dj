@@ -1,0 +1,20 @@
+name: CI Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure
+        run: cmake --preset windows
+
+      - name: Build
+        run: cmake --build --preset windows-release --parallel
+
+      - name: Test
+        run: ctest --preset windows-release
