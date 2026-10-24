@@ -21,3 +21,9 @@ es el texto del Release en GitHub.
   con la app descargable durante 7 días.
 - Workflow "Release" que, al mergear a `main`, compila ambas plataformas y
   crea un Release en borrador con este changelog.
+
+### Corregido
+
+- Los logos SVG (`turbito-horizontal.svg` y `turbito-logo.svg`) ya no se ven
+  cortados en Safari/iOS: el texto pasa a trazos vectoriales y no depende de
+  la fuente incrustada.
