@@ -6,7 +6,9 @@ La especificación completa está en `docs/SPEC.md`. Léela antes de planear cua
 ## Stack
 - C++20, JUCE 9, CMake (`juce_add_gui_app`). macOS 13+ (Universal) y Windows 10/11 x64.
 - Audio: `AudioDeviceManager` (CoreAudio, WASAPI, ASIO). Decodificación con `AudioFormatManager`.
-- Time-stretch/keylock: Rubber Band (R3). BPM/beatgrid: aubio o Essentia. Tono: Essentia (notación Camelot).
+- Time-stretch/keylock: Rubber Band (R3). BPM, beatgrid y tono: qm-dsp
+  (notación Camelot). Tags: TagLib 2.x. Ver
+  `docs/decisions/0002-analysis-library.md`.
 - Base de datos: SQLite embebido. Pruebas: Catch2 + CTest. CI: GitHub Actions (macOS y Windows).
 
 ## Reglas de oro del audio

@@ -32,7 +32,8 @@ de placas, que funciona igual con o sin controladora.
 
 - C++20, JUCE 9 y CMake.
 - Audio: CoreAudio (macOS), WASAPI y ASIO (Windows).
-- Rubber Band (time-stretch y keylock), aubio o Essentia (BPM y tono).
+- Rubber Band (time-stretch y keylock), qm-dsp (BPM, beatgrid y tono) y
+  TagLib (tags de los archivos).
 - SQLite embebido, Catch2 + CTest y GitHub Actions.
 
 Plataformas: macOS 13+ (Universal: arm64 + x86_64) y Windows 10/11 x64.
@@ -40,8 +41,9 @@ Plataformas: macOS 13+ (Universal: arm64 + x86_64) y Windows 10/11 x64.
 ## Compilar
 
 Requisitos: CMake 3.22+, git y un compilador C++20 (Xcode en macOS, Visual
-Studio con "Desarrollo para el escritorio con C++" en Windows). JUCE y Catch2
-se descargan solos en el primer configure (`cmake/Dependencies.cmake`).
+Studio con "Desarrollo para el escritorio con C++" en Windows). Las
+dependencias se descargan solas en el primer configure
+(`cmake/Dependencies.cmake`).
 
 macOS:
 
@@ -105,6 +107,14 @@ Copyright © 2026 Hugo Gutierrez. Software libre bajo la
 que publiques tus cambios bajo la misma licencia. El motivo de la elección
 está en [`docs/decisions/0001-license.md`](docs/decisions/0001-license.md).
 Las fuentes usan la licencia OFL (ver `assets/fonts/`).
+
+Dependencias y sus licencias:
+
+- JUCE: AGPLv3 o comercial (se usa AGPLv3).
+- Rubber Band: GPL. qm-dsp: GPLv2 o posterior. ASIO SDK: GPLv3.
+- TagLib: LGPL-2.1 o MPL-1.1. utfcpp: BSL-1.0. Catch2 (solo pruebas):
+  BSL-1.0.
+- SQLite: dominio público.
 
 ## Contribuir
 

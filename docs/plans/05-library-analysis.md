@@ -203,7 +203,7 @@ app/MainComponent
 4. Push y `gh run watch`: macOS y Windows en verde.
 
 ## Checklist
-- [ ] T1 – Dependencias y ADR
+- [x] T1 – Dependencias y ADR
 - [ ] Checkpoint: CI verde con dependencias nuevas
 - [ ] T2 – Base de datos
 - [ ] T3 – Escaneo y tags
