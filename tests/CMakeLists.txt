@@ -8,6 +8,9 @@ add_executable(turbito_tests
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
     library/DependenciesTests.cpp
+    library/db/DatabaseTests.cpp
+    library/db/SchemaTests.cpp
+    library/db/TrackRepositoryTests.cpp
     ui/AppViewSnapshotTests.cpp
     ui/AppViewTests.cpp
     ui/deck/DeckComponentTests.cpp
@@ -36,9 +39,7 @@ target_link_libraries(turbito_tests
     PRIVATE
         Catch2::Catch2WithMain
         turbito_engine
-        turbito_ui
-        turbito_sqlite
-        TagLib::tag
-        turbito_qmdsp)
+        turbito_library
+        turbito_ui)
 
 catch_discover_tests(turbito_tests)

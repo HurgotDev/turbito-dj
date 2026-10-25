@@ -43,7 +43,6 @@ FetchContent_Declare(qmdsp
 FetchContent_MakeAvailable(JUCE)
 FetchContent_MakeAvailable(Catch2)
 
-# Sources only (no CMakeLists.txt): direct Populate is the only way to fetch.
 cmake_policy(SET CMP0169 OLD)
 # Sources only (no CMakeLists.txt): each cmake/*.cmake module adds its target.
 FetchContent_Populate(sqlite)

@@ -205,7 +205,7 @@ app/MainComponent
 ## Checklist
 - [x] T1 – Dependencias y ADR
 - [ ] Checkpoint: CI verde con dependencias nuevas
-- [ ] T2 – Base de datos
+- [x] T2 – Base de datos
 - [ ] T3 – Escaneo y tags
 - [ ] T4 – Análisis
 - [ ] T5 – Búsqueda, filtro y orden
