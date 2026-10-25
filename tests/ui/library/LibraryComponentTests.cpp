@@ -98,17 +98,20 @@ TEST_CASE("The loaded track's row is highlighted", "[ui][library]")
     const auto table = child<juce::TableListBox>(library).getBounds();
     // Right edge of the Deck column, past the badge; row middles at 30 + 20 and 30 + 61.
     const auto x = table.getX() + 48;
+    // Inside the badge's left margin: its letter sits a few px further in, and
+    // where the letter lands depends on the platform's font rendering.
+    const auto badgeX = table.getX() + 13;
 
     CHECK(image.getPixelAt(x, table.getY() + 30 + 20) != juce::Colour(tokens::rowActive));
     CHECK(image.getPixelAt(x, table.getY() + 30 + 61) == juce::Colour(tokens::rowActive));
-    CHECK(image.getPixelAt(table.getX() + 20, table.getY() + 30 + 61) == juce::Colour(tokens::deckB));
+    CHECK(image.getPixelAt(badgeX, table.getY() + 30 + 61) == juce::Colour(tokens::deckB));
 
     library.setLoadedDeck(1, {});
     const auto cleared = paintWidget(library, 1420, 266);
     CHECK(cleared.getPixelAt(x, table.getY() + 30 + 61) != juce::Colour(tokens::rowActive));
 }
 
-TEST_CASE("Library lays out at 1420 × 266", "[ui][library]")
+TEST_CASE("Library lays out at 1420 x 266", "[ui][library]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
 

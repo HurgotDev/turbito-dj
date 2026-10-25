@@ -83,7 +83,7 @@ TEST_CASE("PLAY sends a toggle press for its deck", "[ui][deck]")
     CHECK(b.events[1].action == Action::DeckB_Cue);
 }
 
-TEST_CASE("Deck keeps the 148 jog at 550 × 400", "[ui][deck]")
+TEST_CASE("Deck keeps the 148 jog at 550 x 400", "[ui][deck]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
 

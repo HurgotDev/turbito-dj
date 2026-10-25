@@ -62,7 +62,7 @@ TEST_CASE("setControl moves a control without sending", "[ui][mixer]")
     CHECK_THAT(crossfader(mixer).getValue(), Catch::Matchers::WithinAbs(0.1, 1e-6));
 }
 
-TEST_CASE("Mixer fits 300 × 400", "[ui][mixer]")
+TEST_CASE("Mixer fits 300 x 400", "[ui][mixer]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
 

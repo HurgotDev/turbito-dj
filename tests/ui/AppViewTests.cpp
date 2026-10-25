@@ -27,7 +27,7 @@ namespace
     }
 }
 
-TEST_CASE("AppView lays out like the mockup at 1440 × 900", "[ui][app]")
+TEST_CASE("AppView lays out like the mockup at 1440 x 900", "[ui][app]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
 
@@ -55,7 +55,7 @@ TEST_CASE("AppView lays out like the mockup at 1440 × 900", "[ui][app]")
     CHECK(view.library().getBounds() == juce::Rectangle<int>(10, 624, 1420, 266));
 }
 
-TEST_CASE("AppView fits 1280 × 720 without overlaps", "[ui][app]")
+TEST_CASE("AppView fits 1280 x 720 without overlaps", "[ui][app]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
 

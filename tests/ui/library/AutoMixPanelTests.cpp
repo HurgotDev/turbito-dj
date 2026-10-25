@@ -67,7 +67,7 @@ TEST_CASE("Pending count skips played tracks and duplicates flag later copies", 
     CHECK(duplicateFlags(queue) == std::vector<bool> { false, false, false, false, false, true, false });
 }
 
-TEST_CASE("addTrack appends a queued row and × removes rows but the playing one",
+TEST_CASE("addTrack appends a queued row and the remove button removes rows but the playing one",
           "[ui][automix]")
 {
     const juce::ScopedJuceInitialiser_GUI juce;
