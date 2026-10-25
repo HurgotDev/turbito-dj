@@ -148,7 +148,6 @@ UI ◄── DeckSnapshot (atomics: loaded, playing, position, length) ◄──
 - [x] T2 – Core: `SpscQueue`, `Action`, `Track`, `DeckSnapshot`
 - [x] T3 – Engine: `TrackLoader`, `Deck`, `AudioEngine`
 - [x] T4 – App: UI temporal y selector de dispositivo
-- [ ] Checkpoint: el usuario prueba la app con audio real (pendiente:
-  prueba manual en macOS)
+- [x] Checkpoint: el usuario prueba la app con audio real
 - [x] T5 – README, CHANGELOG y PR a `develop`
 - [x] "Build & Test" en verde en macOS y Windows
