@@ -9,7 +9,12 @@ add_executable(turbito_tests
     engine/mixer/CrossfaderTests.cpp
     ui/look/FontsTests.cpp
     ui/look/TokensTests.cpp
-    ui/look/TurbitoLookAndFeelTests.cpp)
+    ui/look/TurbitoLookAndFeelTests.cpp
+    ui/widgets/JogWheelTests.cpp
+    ui/widgets/KnobTests.cpp
+    ui/widgets/PadGridTests.cpp
+    ui/widgets/VuMeterTests.cpp
+    ui/widgets/WaveformViewTests.cpp)
 
 target_include_directories(turbito_tests PRIVATE ${PROJECT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
 

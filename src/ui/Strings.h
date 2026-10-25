@@ -19,4 +19,10 @@ namespace strings
     inline constexpr const char* filter = "Filtro";
     inline constexpr const char* crossfader = "Crossfader";
     inline constexpr const char* crossfaderCurve = "Curva";
+    inline constexpr const char* padModes[] = { "Hot cue", "Loop", "FX", "Placas" };
+    inline constexpr const char* padEmpty = "Vacío";
+    inline constexpr const char* loopSizes[] = { "1/8 beat", "1/4 beat", "1/2 beat", "1 beat",
+                                                 "2 beat", "4 beat", "8 beat", "16 beat" };
+    inline constexpr const char* fxNames[] = { "Echo", "Reverb", "Filtro", "Flanger",
+                                               "Delay", "Phaser", "Gate", "Roll" };
 }
