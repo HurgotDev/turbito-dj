@@ -7,6 +7,18 @@ add_executable(turbito_tests
     engine/deck/TrackLoaderTests.cpp
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
+    library/DependenciesTests.cpp
+    library/LibraryTests.cpp
+    library/QueryTests.cpp
+    library/analysis/AnalysisQueueTests.cpp
+    library/analysis/CamelotTests.cpp
+    library/analysis/TrackAnalyzerTests.cpp
+    library/analysis/WaveformBuilderTests.cpp
+    library/db/DatabaseTests.cpp
+    library/db/SchemaTests.cpp
+    library/db/TrackRepositoryTests.cpp
+    library/scan/FolderScannerTests.cpp
+    library/scan/TagReaderTests.cpp
     ui/AppViewSnapshotTests.cpp
     ui/AppViewTests.cpp
     ui/deck/DeckComponentTests.cpp
@@ -35,6 +47,7 @@ target_link_libraries(turbito_tests
     PRIVATE
         Catch2::Catch2WithMain
         turbito_engine
+        turbito_library
         turbito_ui)
 
 catch_discover_tests(turbito_tests)

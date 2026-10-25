@@ -1,5 +1,7 @@
 #include "ui/deck/DeckComponent.h"
 
+#include "ui/library/LibraryComponent.h"
+
 #include <cmath>
 
 #include "ui/Layout.h"
@@ -284,4 +286,15 @@ void DeckComponent::paint(juce::Graphics& g)
     g.setFont(fonts::mono(static_cast<float>(tokens::fontSizeLabel)));
     g.drawText(formatPitch(static_cast<float>(pitch.getValue())), pitchValue,
                juce::Justification::centred, false);
+}
+
+bool DeckComponent::isInterestedInDragSource(const SourceDetails& details)
+{
+    return LibraryComponent::draggedFile(details) != juce::File();
+}
+
+void DeckComponent::itemDropped(const SourceDetails& details)
+{
+    if (onFileDropped)
+        onFileDropped(LibraryComponent::draggedFile(details));
 }

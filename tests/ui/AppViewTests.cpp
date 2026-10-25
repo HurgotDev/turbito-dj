@@ -80,7 +80,7 @@ TEST_CASE("The library's + adds the track to the Auto Mix queue", "[ui][app]")
 
     AppView view;
     view.setBounds(0, 0, 1440, 900);
-    view.library().addFiles({ juce::File("/music/Pulso.mp3") });
+    view.library().setTracks({ { juce::File("/music/Pulso.mp3"), "Pulso", {}, {}, {}, {} } });
 
     juce::TableListBox* table = nullptr;
     for (auto* child : view.library().getChildren())
@@ -112,4 +112,38 @@ TEST_CASE("Deck input reaches AppView::onAction", "[ui][app]")
     REQUIRE(events.size() == 1);
     CHECK(events[0].action == Action::DeckA_Cue);
     CHECK_THAT(events[0].value, Catch::Matchers::WithinAbs(1.0, 1e-6));
+}
+
+TEST_CASE("Library rows dropped on a deck or its waveform load there", "[ui][app]")
+{
+    const juce::ScopedJuceInitialiser_GUI juce;
+
+    AppView view;
+    view.setBounds(0, 0, 1440, 900);
+    const juce::File file("/music/Pulso.mp3");
+    view.library().setTracks({ { file, "Pulso", {}, {}, {}, {} } });
+
+    std::vector<std::pair<int, juce::File>> loads;
+    view.library().onLoad = [&](int deck, const juce::File& f) { loads.emplace_back(deck, f); };
+
+    juce::TableListBox* table = nullptr;
+    for (auto* child : view.library().getChildren())
+        if (auto* found = dynamic_cast<juce::TableListBox*>(child))
+            table = found;
+    REQUIRE(table != nullptr);
+
+    const juce::var path(file.getFullPathName());
+    const auto details = [&](juce::Point<int> at) { return juce::DragAndDropTarget::SourceDetails(path, table, at); };
+
+    CHECK(view.deck(1).isInterestedInDragSource(details({})));
+    CHECK(! view.deck(1).isInterestedInDragSource({ path, &view, {} }));
+    view.deck(1).itemDropped(details({}));
+
+    auto& waveforms = view.waveforms();
+    CHECK(waveforms.isInterestedInDragSource(details({})));
+    waveforms.itemDropped(details(waveforms.waveform(0).getBounds().getCentre()));
+    waveforms.itemDropped(details(waveforms.waveform(1).getBounds().getCentre()));
+
+    using Load = std::pair<int, juce::File>;
+    CHECK(loads == std::vector<Load> { { 1, file }, { 0, file }, { 1, file } });
 }

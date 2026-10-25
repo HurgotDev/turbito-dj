@@ -40,8 +40,8 @@ namespace
     constexpr int loadSize = 28;
     constexpr int loadGap = 6;
 
-    enum Column { deckColumn = 1, titleColumn, artistColumn, bpmColumn, keyColumn,
-                  durationColumn, loadColumn };
+    // Título to Duración are LibraryComponent::Column.
+    enum { deckColumn = 1, loadColumn = 7 };
     // Measured in mockup-1440x900.png; Título and Artista share the rest.
     constexpr int fixedWidths[] = { 56, 0, 0, 50, 59, 91, 120 };
 
@@ -188,7 +188,12 @@ public:
     {
         for (int i = 0; i < static_cast<int>(library.collections.size()); ++i)
             if (itemBounds(i).contains(event.getPosition()))
+            {
                 library.setSelectedCollection(i);
+
+                if (library.onCollectionSelected)
+                    library.onCollectionSelected(i);
+            }
     }
 
 private:
@@ -218,7 +223,6 @@ LibraryComponent::LibraryComponent()
     addAndMakeVisible(collectionResizer);
     addChildComponent(sideResizer);
 
-    // Search, filter and Analizar are inert until phase 5.
     const auto transparent = juce::Colour(tokens::bg).withAlpha(0.0f);
     search.setFont(itemFont());
     // Closest token to Chrome's placeholder grey (#757575).
@@ -233,6 +237,7 @@ LibraryComponent::LibraryComponent()
     // Escape, or a click elsewhere in the library, focuses the library
     // instead of the search, so key presses reach the app's shortcuts again.
     search.onEscapeKey = [this] { grabKeyboardFocus(); };
+    search.onTextChange = [this] { if (onSearchChanged) onSearchChanged(search.getText()); };
     setWantsKeyboardFocus(true);
     addAndMakeVisible(search);
 
@@ -240,11 +245,13 @@ LibraryComponent::LibraryComponent()
         filter.addItem(juce::String::fromUTF8(strings::libraryFilters[i]), i + 1);
     filter.setSelectedId(1, juce::dontSendNotification);
     filter.setWantsKeyboardFocus(false);
+    filter.onChange = [this] { if (onFilterChanged) onFilterChanged(filter.getSelectedItemIndex()); };
     addAndMakeVisible(filter);
 
     analyze.setButtonText(strings::analyze);
     import.setButtonText(strings::importTracks);
-    import.onClick = [this] { importFiles(); };
+    analyze.onClick = [this] { if (onAnalyze) onAnalyze(); };
+    import.onClick = [this] { if (onImport) onImport(); };
 
     for (auto* button : { &analyze, &import })
     {
@@ -256,7 +263,10 @@ LibraryComponent::LibraryComponent()
     for (int i = 0; i < 7; ++i)
         header.addColumn(juce::String::fromUTF8(strings::trackColumns[i]), i + 1,
                          juce::jmax(1, fixedWidths[i]), 1, -1,
-                         juce::TableHeaderComponent::visible);
+                         juce::TableHeaderComponent::visible
+                             | (i + 1 == deckColumn || i + 1 == loadColumn
+                                    ? 0
+                                    : juce::TableHeaderComponent::sortable));
     header.setPopupMenuActive(false);
     table.setHeaderHeight(headerHeight);
     table.setRowHeight(rowHeight);
@@ -291,22 +301,6 @@ void LibraryComponent::setSelectedCollection(int index)
 void LibraryComponent::setTracks(std::vector<LibraryTrack> newTracks)
 {
     tracks = std::move(newTracks);
-    tracksChanged();
-}
-
-void LibraryComponent::addFiles(const juce::Array<juce::File>& files)
-{
-    const auto noValue = juce::String::fromUTF8(strings::noValue);
-
-    for (const auto& file : files)
-    {
-        const auto listed = std::any_of(tracks.begin(), tracks.end(),
-                                        [&file](const LibraryTrack& t) { return t.file == file; });
-        if (! listed)
-            tracks.push_back({ file, file.getFileNameWithoutExtension(), noValue, noValue, noValue,
-                               noValue });
-    }
-
     tracksChanged();
 }
 
@@ -351,16 +345,6 @@ void LibraryComponent::tracksChanged()
     table.updateContent();
     resized();
     repaint();
-}
-
-void LibraryComponent::importFiles()
-{
-    chooser = std::make_unique<juce::FileChooser>(strings::importTitle, juce::File(),
-                                                  "*.wav;*.mp3;*.flac;*.aif;*.aiff");
-    chooser->launchAsync(juce::FileBrowserComponent::openMode
-                             | juce::FileBrowserComponent::canSelectFiles
-                             | juce::FileBrowserComponent::canSelectMultipleItems,
-                         [this](const juce::FileChooser& fc) { addFiles(fc.getResults()); });
 }
 
 //==============================================================================
@@ -603,4 +587,31 @@ void LibraryComponent::cellDoubleClicked(int row, int, const juce::MouseEvent&)
 {
     if (onLoad && row >= 0 && row < static_cast<int>(tracks.size()))
         onLoad(0, tracks[static_cast<std::size_t>(row)].file);
+}
+
+void LibraryComponent::sortOrderChanged(int columnId, bool ascending)
+{
+    if (onSortChanged)
+        onSortChanged(columnId, ascending);
+}
+
+juce::var LibraryComponent::getDragSourceDescription(const juce::SparseSet<int>& rows)
+{
+    if (rows.isEmpty() || rows[0] < 0 || rows[0] >= static_cast<int>(tracks.size()))
+        return {};
+
+    return tracks[static_cast<std::size_t>(rows[0])].file.getFullPathName();
+}
+
+juce::File LibraryComponent::draggedFile(const juce::DragAndDropTarget::SourceDetails& details)
+{
+    const auto* source = details.sourceComponent.get();
+    const auto fromLibrary = source != nullptr
+                          && dynamic_cast<const juce::TableListBox*>(source) != nullptr
+                          && dynamic_cast<const LibraryComponent*>(source->getParentComponent()) != nullptr;
+
+    if (! fromLibrary || ! details.description.isString())
+        return {};
+
+    return juce::File(details.description.toString());
 }

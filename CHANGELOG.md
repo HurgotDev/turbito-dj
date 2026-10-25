@@ -44,11 +44,26 @@ es el texto del Release en GitHub.
 - "Importar" agrega archivos a la tabla de la biblioteca y los botones A/B
   de cada fila los cargan en el deck.
 - La curva del crossfader está en Ajustes y se recuerda al reabrir la app.
+- Biblioteca persistente en SQLite: "Importar" agrega una carpeta con sus
+  subcarpetas (MP3, WAV, FLAC, AIFF) y lee título, artista y duración de
+  los tags.
+- Análisis en segundo plano de BPM, beatgrid, tono (notación Camelot) y
+  forma de onda, sin cortar el audio; "Analizar" retoma las pistas
+  pendientes.
+- Búsqueda por título, artista, BPM o tono, filtros (BPM ±3 del deck A,
+  tono compatible con A, sin analizar) y orden por cualquier columna.
+- Colecciones Todas las pistas, Carpetas e Historial (pistas cargadas en un
+  deck).
+- Cargar una pista arrastrándola de la tabla a un deck o a su waveform.
+- La waveform de cada deck muestra la pista real y se desplaza con el
+  playhead al centro; el deck muestra BPM y tono, y la barra superior el
+  BPM master.
 
 ### Cambiado
 
 - Los controles provisionales de las fases 2 y 3 se reemplazan por la
   interfaz del diseño; las pistas se cargan desde la biblioteca.
+- "Importar" ahora elige una carpeta en lugar de archivos sueltos.
 
 ### Corregido
 

@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(cmake/Dependencies.cmake)
+include(cmake/Sqlite.cmake)
+include(cmake/QmDsp.cmake)
 include(cmake/JuceShared.cmake)
 include(cmake/Tokens.cmake)
 include(cmake/BinaryData.cmake)

@@ -33,8 +33,9 @@ C++20 sobre JUCE 9, compilado con CMake. Un solo código base genera la app para
 | Audio | CoreAudio (macOS), WASAPI y ASIO (Windows) vía `AudioDeviceManager` | Latencia objetivo menor a 10 ms |
 | Decodificación | `AudioFormatManager` de JUCE (MP3, WAV, FLAC, AIFF) | Incluido en JUCE |
 | Time-stretch y keylock | Rubber Band Library (R3) | Calidad profesional; se usa bajo GPL (compatible con AGPLv3) |
-| BPM y beatgrid | aubio o Essentia | Detección de tempo y onsets |
-| Tono | Essentia (`KeyExtractor`), notación Camelot | Mostrar tonos como 8A o 5A |
+| BPM y beatgrid | qm-dsp (Queen Mary, GPLv2 o posterior) | Detección de tempo y onsets, la misma base que Mixxx; ver [ADR 0002](decisions/0002-analysis-library.md) |
+| Tono | qm-dsp (`GetKeyMode`), notación Camelot | Mostrar tonos como 8A o 5A |
+| Tags | TagLib 2.x (LGPL-2.1 o MPL-1.1) | Título, artista y etiquetas de MP3, FLAC, WAV y AIFF; JUCE no lee ID3 ni Vorbis comments |
 | Base de datos | SQLite (`sqlite3` embebido) | Biblioteca, análisis, hot cues y playlists |
 | Pruebas | Catch2 + CTest | Pruebas unitarias del motor |
 | CI | GitHub Actions: "Build & Test" (macOS y Windows) y "Release" | Build y pruebas en cada PR y en cada push a develop; Release en borrador al mergear a main |
