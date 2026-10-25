@@ -33,7 +33,7 @@ namespace
                               tokens::labelTracking);
     }
 
-    juce::String masterLabel() { return juce::String(strings::master).toUpperCase(); }
+    juce::String masterLabel() { return upperCase(strings::master); }
 
     // Feather's "settings" icon from the mockup, in its 24 × 24 viewBox.
     juce::Path gearPath()
@@ -91,7 +91,7 @@ TopBar::TopBar()
     record.setColour(TurbitoLookAndFeel::buttonBorderColourId, juce::Colour(tokens::recordBorder));
     record.paintContent = [this](juce::Graphics& g)
     {
-        auto area = record.getLocalBounds().reduced(buttonPadding, 0);
+        auto area = record.getLocalBounds().reduced(1 + buttonPadding, 0);  // border + padding
         const auto dot = area.removeFromLeft(recordDot).toFloat();
         g.setColour(juce::Colour(tokens::record));
         g.fillEllipse(juce::Rectangle<float>(8.0f, 8.0f).withCentre(dot.getCentre()));
@@ -112,7 +112,8 @@ TopBar::TopBar()
                                                 static_cast<float>(iconSize))
                              .withCentre(settings.getLocalBounds().toFloat().getCentre());
         g.setColour(juce::Colour(tokens::text));
-        g.strokePath(gear, juce::PathStrokeType(2.0f, juce::PathStrokeType::curved,
+        // JUCE strokes after transforming, so scale the viewBox's 2px stroke by hand.
+        g.strokePath(gear, juce::PathStrokeType(2.0f * box.getWidth() / 24.0f, juce::PathStrokeType::curved,
                                                 juce::PathStrokeType::rounded),
                      juce::AffineTransform::scale(box.getWidth() / 24.0f)
                          .translated(box.getX(), box.getY()));
@@ -178,8 +179,10 @@ void TopBar::paint(juce::Graphics& g)
 {
     TurbitoLookAndFeel::drawPanel(g, getLocalBounds().toFloat());
 
+    // Fit the SVG's own 520 × 112 canvas, as a browser does, not its painted bounds.
     if (logo != nullptr)
-        logo->drawWithin(g, logoArea.toFloat(), juce::RectanglePlacement::centred, 1.0f);
+        logo->draw(g, 1.0f, juce::RectanglePlacement(juce::RectanglePlacement::centred)
+                                .getTransformToFit({ 0.0f, 0.0f, 520.0f, 112.0f }, logoArea.toFloat()));
 
     auto controllerText = controllerArea;
     const auto dot = controllerText.removeFromLeft(dotSize).toFloat();

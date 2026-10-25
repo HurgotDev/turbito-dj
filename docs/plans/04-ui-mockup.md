@@ -253,7 +253,7 @@ ui/AppView
 - [x] T6 – `AutoMixPanel`
 - [x] T7 – `AppView` y `MainComponent` conectado
 - [ ] Checkpoint: el usuario prueba la app con audio real
-- [ ] T8 – Captura y validación
+- [x] T8 – Captura y validación
 - [ ] Checkpoint: el usuario revisa la captura contra el mockup
 - [ ] T9 – README, CHANGELOG y PR a `develop`
 - [ ] "Build & Test" en verde en macOS y Windows

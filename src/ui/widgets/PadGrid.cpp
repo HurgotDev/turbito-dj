@@ -1,5 +1,6 @@
 #include "ui/widgets/PadGrid.h"
 
+#include "ui/Layout.h"
 #include "ui/Strings.h"
 #include "ui/look/Fonts.h"
 #include "ui/look/Tokens.h"
@@ -114,12 +115,11 @@ void PadGrid::updateTabs()
 
 juce::Rectangle<int> PadGrid::padBounds(int index) const
 {
-    const auto width = (getWidth() - (columns - 1) * gap) / columns;
-    const auto column = index % columns;
     const auto row = index / columns;
+    const juce::Rectangle<int> rowBounds(0, tabsHeight + gap + row * (tokens::layoutPadHeight + gap),
+                                         getWidth(), tokens::layoutPadHeight);
 
-    return { column * (width + gap), tabsHeight + gap + row * (tokens::layoutPadHeight + gap), width,
-             tokens::layoutPadHeight };
+    return gridCell(rowBounds, columns, gap, index % columns);
 }
 
 int PadGrid::padAt(juce::Point<int> position) const
@@ -133,10 +133,9 @@ int PadGrid::padAt(juce::Point<int> position) const
 
 void PadGrid::resized()
 {
-    const auto width = (getWidth() - (columns - 1) * gap) / columns;
-
     for (Index i = 0; i < tabs.size(); ++i)
-        tabs[i].setBounds(static_cast<int>(i) * (width + gap), 0, width, tabsHeight);
+        tabs[i].setBounds(gridCell(getLocalBounds().withHeight(tabsHeight), columns, gap,
+                                   static_cast<int>(i)));
 }
 
 void PadGrid::paint(juce::Graphics& g)
@@ -156,10 +155,13 @@ void PadGrid::paint(juce::Graphics& g)
         const auto inner = bounds.reduced(9.0f, 6.0f);  // 8 × 5 padding inside the border
         g.setColour(pad.text);
         g.setFont(fonts::mono(static_cast<float>(tokens::fontSizeLabel), 700));
-        g.drawText(juce::String(i + 1), inner, juce::Justification::topLeft, false);
+        // Glyphs centred in CSS line boxes: the number at line height 1, the label at 1.2.
+        g.drawText(juce::String(i + 1), inner.withHeight(static_cast<float>(tokens::fontSizeLabel)),
+                   juce::Justification::centredLeft, false);
 
         g.setFont(fonts::ui(static_cast<float>(tokens::fontSizeButton), 600));
-        g.drawText(pad.label, inner, juce::Justification::bottomLeft, true);
+        g.drawText(pad.label, inner.withTop(inner.getBottom() - 1.2f * tokens::fontSizeButton),
+                   juce::Justification::centredLeft, true);
     }
 }
 

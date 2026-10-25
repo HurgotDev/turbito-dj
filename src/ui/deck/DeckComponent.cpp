@@ -195,7 +195,7 @@ void DeckComponent::resized()
 
     const auto pitchColumnWidth = juce::jmax(pitchWidth + 2 * pitchMargin,
                                              textWidth(pitchLabelFont(),
-                                                       juce::String(strings::pitch).toUpperCase()));
+                                                       upperCase(strings::pitch)));
     auto pitchColumn = row.removeFromRight(pitchColumnWidth);
     row.removeFromRight(jogRowGap);
 

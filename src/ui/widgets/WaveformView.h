@@ -14,7 +14,8 @@ public:
 
     void setColours(juce::Colour accent, juce::Colour played);
 
-    // Bar heights in px; the strip is 54 px high.
+    // Bar heights in px; the strip is 54 px high. A 0 is no audio (before the
+    // track starts): a flat bar in the empty colour.
     void setBars(std::vector<float> heights);
 
     // Loop region as fractions of the width.

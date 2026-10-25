@@ -1,5 +1,6 @@
 #include "ui/look/TurbitoLookAndFeel.h"
 
+#include "ui/Layout.h"
 #include "ui/look/Fonts.h"
 #include "ui/look/Tokens.h"
 
@@ -55,7 +56,8 @@ TurbitoLookAndFeel::TurbitoLookAndFeel()
     setColour(juce::Slider::rotarySliderOutlineColourId, colour(tokens::borderControl));
     setColour(juce::Slider::trackColourId, colour(tokens::deckA));
     setColour(juce::Slider::thumbColourId, colour(tokens::deckA));
-    setColour(juce::Slider::backgroundColourId, colour(tokens::borderStrong));
+    // Closest tokens to Chrome's range track (#3B3B3B, border #858585).
+    setColour(juce::Slider::backgroundColourId, colour(tokens::borderControl));
 
     setColour(juce::ComboBox::backgroundColourId, colour(tokens::surface));
     setColour(juce::ComboBox::outlineColourId, colour(tokens::borderControl));
@@ -94,7 +96,7 @@ void TurbitoLookAndFeel::drawLabelText(juce::Graphics& g, const juce::String& te
     g.setColour(colour(tokens::textMuted));
     g.setFont(fonts::tracked(fonts::ui(static_cast<float>(tokens::fontSizeLabel)),
                              tokens::labelTracking));
-    g.drawText(text.toUpperCase(), area, justification, false);
+    g.drawText(upperCase(text), area, justification, false);
 }
 
 void TurbitoLookAndFeel::drawPanel(juce::Graphics& g, juce::Rectangle<float> bounds)
@@ -261,17 +263,17 @@ void TurbitoLookAndFeel::drawComboBox(juce::Graphics& g, int width, int height, 
     g.setColour(box.findColour(juce::ComboBox::outlineColourId));
     g.drawRoundedRectangle(bounds, radius, 1.0f);
 
-    // Chrome's chevron: 8 × 4, about 7 from the right edge.
+    // Chrome's chevron: 7 × 3.5, about 7 from the right edge.
     const auto centre = juce::Point<float>(static_cast<float>(width) - 7.0f,
                                            static_cast<float>(height) / 2);
     juce::Path chevron;
-    chevron.startNewSubPath(centre.translated(-4.0f, -2.0f));
-    chevron.lineTo(centre.translated(0.0f, 2.0f));
-    chevron.lineTo(centre.translated(4.0f, -2.0f));
+    chevron.startNewSubPath(centre.translated(-3.5f, -1.75f));
+    chevron.lineTo(centre.translated(0.0f, 1.75f));
+    chevron.lineTo(centre.translated(3.5f, -1.75f));
 
     g.setColour(box.findColour(juce::ComboBox::arrowColourId)
                     .withMultipliedAlpha(box.isEnabled() ? 1.0f : 0.5f));
-    g.strokePath(chevron, juce::PathStrokeType(1.5f, juce::PathStrokeType::curved,
+    g.strokePath(chevron, juce::PathStrokeType(1.25f, juce::PathStrokeType::curved,
                                                juce::PathStrokeType::rounded));
 }
 
@@ -282,9 +284,10 @@ juce::Font TurbitoLookAndFeel::getComboBoxFont(juce::ComboBox&)
 
 void TurbitoLookAndFeel::positionComboBoxText(juce::ComboBox& box, juce::Label& label)
 {
-    const auto padding = box.getHeight() >= 32 ? 8 : 6;
+    // CSS padding (8 or 6) + border + Chrome's own 4px inside a <select>.
+    const auto padding = (box.getHeight() >= 32 ? 8 : 6) + 1 + 4;
 
-    label.setBounds(padding, 0, box.getWidth() - padding - 16, box.getHeight());
+    label.setBounds(padding, 0, box.getWidth() - padding - 10, box.getHeight());  // up to the chevron
     label.setBorderSize({});
     label.setFont(getComboBoxFont(box));
 }
@@ -426,7 +429,7 @@ void TurbitoLookAndFeel::drawTableHeaderColumn(juce::Graphics& g, juce::TableHea
 {
     g.setColour(header.findColour(juce::TableHeaderComponent::textColourId));
     g.setFont(fonts::tracked(fonts::ui(static_cast<float>(tokens::fontSizeLabel), 600), 0.06f));
-    g.drawText(columnName.toUpperCase(), juce::Rectangle<int>(width, height).reduced(10, 0),
+    g.drawText(upperCase(columnName), juce::Rectangle<int>(width, height).reduced(10, 0),
                juce::Justification::centredLeft, true);
 }
 

@@ -64,7 +64,8 @@ void WaveformView::paint(juce::Graphics& g)
         const auto height = bars.empty() ? minBarHeight
                                          : juce::jmax(minBarHeight, bars[static_cast<size_t>(i)]);
 
-        g.setColour(bars.empty()                     ? juce::Colour(tokens::empty)
+        const auto silent = bars.empty() || bars[static_cast<size_t>(i)] <= 0.0f;
+        g.setColour(silent                           ? juce::Colour(tokens::empty)
                     : x + barWidth / 2.0f < centreX  ? played
                                                      : accent);
         g.fillRoundedRectangle(juce::Rectangle<float>(x, bounds.getCentreY() - height / 2.0f,
@@ -75,7 +76,8 @@ void WaveformView::paint(juce::Graphics& g)
     if (loop)
     {
         const auto left = bounds.getX() + bounds.getWidth() * loop->getStart();
-        const auto right = bounds.getX() + bounds.getWidth() * loop->getEnd();
+        // The mockup's 1px borders sit outside the loop's width, as CSS content-box.
+        const auto right = bounds.getX() + bounds.getWidth() * loop->getEnd() + 2.0f;
         const juce::Rectangle<float> region(left, bounds.getY(), right - left, bounds.getHeight());
 
         g.setColour(accent.withAlpha(loopFillAlpha));

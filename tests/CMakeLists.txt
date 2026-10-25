@@ -7,6 +7,7 @@ add_executable(turbito_tests
     engine/deck/TrackLoaderTests.cpp
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
+    ui/AppViewSnapshotTests.cpp
     ui/AppViewTests.cpp
     ui/deck/DeckComponentTests.cpp
     ui/deck/WaveformPanelTests.cpp
@@ -27,7 +28,8 @@ add_executable(turbito_tests
 target_include_directories(turbito_tests PRIVATE ${PROJECT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_definitions(turbito_tests PRIVATE
-    TURBITO_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    TURBITO_SOURCE_DIR="${PROJECT_SOURCE_DIR}"
+    TURBITO_BINARY_DIR="${PROJECT_BINARY_DIR}")
 
 target_link_libraries(turbito_tests
     PRIVATE

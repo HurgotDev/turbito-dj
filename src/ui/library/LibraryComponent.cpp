@@ -1,6 +1,7 @@
 #include "ui/library/LibraryComponent.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 
 #include "ui/Layout.h"
@@ -15,7 +16,8 @@ namespace
     constexpr int resizerMargin = 4;
     constexpr int collapsedMargin = 8;
     constexpr int columnGap = 10;
-    constexpr int toolbarHeight = 36;
+    constexpr int toolbarHeight = 38;  // the search box: 36 + its border (content-box)
+    constexpr int controlHeight = 36;
     constexpr int toolbarGap = 8;
     constexpr int filterGap = 6;
     constexpr int controlPadding = 10;
@@ -131,18 +133,22 @@ public:
 
     // Like the mockup's flex column: items shrink towards one line before
     // the list scrolls.
-    int itemHeight = ::itemHeight;
+    // Fractional, as the browser shrinks them; each item rounds its own edges.
+    float itemHeight = static_cast<float>(::itemHeight);
 
     int preferredHeight() const
     {
         return labelRowHeight()
-             + static_cast<int>(library.collections.size()) * (itemGap + itemHeight);
+             + static_cast<int>(std::ceil(static_cast<float>(library.collections.size())
+                                          * (itemGap + itemHeight)));
     }
 
     juce::Rectangle<int> itemBounds(int index) const
     {
-        return { 0, labelRowHeight() + itemGap + index * (itemHeight + itemGap), getWidth(),
-                 itemHeight };
+        const auto top = static_cast<float>(labelRowHeight() + itemGap)
+                       + static_cast<float>(index) * (itemHeight + itemGap);
+        const auto y = juce::roundToInt(top);
+        return { 0, y, getWidth(), juce::roundToInt(top + itemHeight) - y };
     }
 
     void paint(juce::Graphics& g) override
@@ -215,8 +221,9 @@ LibraryComponent::LibraryComponent()
     // Search, filter and Analizar are inert until phase 5.
     const auto transparent = juce::Colour(tokens::bg).withAlpha(0.0f);
     search.setFont(itemFont());
+    // Closest token to Chrome's placeholder grey (#757575).
     search.setTextToShowWhenEmpty(juce::String::fromUTF8(strings::searchPlaceholder),
-                                  juce::Colour(tokens::textMuted));
+                                  juce::Colour(tokens::switchOff));
     search.setJustification(juce::Justification::centredLeft);
     search.setIndents(0, 0);
     search.setBorder({});
@@ -367,8 +374,9 @@ void LibraryComponent::resized()
     collectionView.setBounds(nav);
     const auto items = juce::jmax(1, static_cast<int>(collections.size()));
     collectionList->itemHeight = juce::jlimit(
-        itemMinHeight, itemHeight,
-        (nav.getHeight() - labelRowHeight() - items * itemGap) / items);
+        static_cast<float>(itemMinHeight), static_cast<float>(itemHeight),
+        static_cast<float>(nav.getHeight() - labelRowHeight() - items * itemGap)
+            / static_cast<float>(items));
     collectionList->setSize(navWidth, collectionList->preferredHeight());
 
     area.removeFromLeft(resizerMargin);
@@ -393,15 +401,20 @@ void LibraryComponent::resized()
     auto toolbar = area.removeFromTop(toolbarHeight);
     area.removeFromTop(columnGap);
 
-    import.setBounds(toolbar.removeFromRight(buttonWidth(import)));
+    const auto control = [&toolbar](int width)
+    {
+        return toolbar.removeFromRight(width).withSizeKeepingCentre(width, controlHeight);
+    };
+
+    import.setBounds(control(buttonWidth(import)));
     toolbar.removeFromRight(toolbarGap);
-    analyze.setBounds(toolbar.removeFromRight(buttonWidth(analyze)));
+    analyze.setBounds(control(buttonWidth(analyze)));
     toolbar.removeFromRight(toolbarGap);
 
     auto comboWidth = 0;
     for (const auto* text : strings::libraryFilters)
         comboWidth = juce::jmax(comboWidth, textWidth(smallFont(), juce::String::fromUTF8(text)));
-    filter.setBounds(toolbar.removeFromRight(comboWidth + comboExtra));
+    filter.setBounds(control(comboWidth + comboExtra));
     toolbar.removeFromRight(filterGap);
     filterLabel = toolbar.removeFromRight(textWidth(smallFont(), strings::filter));
     toolbar.removeFromRight(toolbarGap);
@@ -447,7 +460,8 @@ void LibraryComponent::paint(juce::Graphics& g)
                                         static_cast<float>(searchBox.getCentreY()) - searchIconSize / 2.0f);
     static const auto magnifier = searchIcon();
     g.setColour(juce::Colour(tokens::textMuted));
-    g.strokePath(magnifier, juce::PathStrokeType(2.0f, juce::PathStrokeType::curved,
+    // JUCE strokes after transforming, so scale the viewBox's 2px stroke by hand.
+    g.strokePath(magnifier, juce::PathStrokeType(2.0f * icon.getWidth() / 24.0f, juce::PathStrokeType::curved,
                                                  juce::PathStrokeType::rounded),
                  juce::AffineTransform::scale(icon.getWidth() / 24.0f)
                      .translated(icon.getX(), icon.getY()));

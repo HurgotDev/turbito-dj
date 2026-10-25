@@ -16,3 +16,17 @@ TEST_CASE("WaveformView draws the playhead at the centre", "[ui][widgets]")
 
     CHECK(image.getPixelAt(100, 27).getARGB() == tokens::playhead);
 }
+
+TEST_CASE("WaveformView draws 0-high bars as no audio", "[ui][widgets]")
+{
+    const juce::ScopedJuceInitialiser_GUI juce;
+
+    WaveformView waveform;
+    waveform.setColours(juce::Colour(tokens::deckB), juce::Colour(tokens::waveformPlayedB));
+    waveform.setBars({ 0.0f, 40.0f });
+
+    const auto image = paintWidget(waveform, 200, tokens::layoutWaveformHeight);
+
+    CHECK(image.getPixelAt(50, 27).getARGB() == tokens::empty);
+    CHECK(image.getPixelAt(150, 27).getARGB() == tokens::deckB);
+}

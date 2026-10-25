@@ -53,7 +53,7 @@ namespace
 
     int labelWidth(const char* text)
     {
-        return textWidth(labelFont(), juce::String(text).toUpperCase());
+        return textWidth(labelFont(), upperCase(juce::String::fromUTF8(text)));
     }
 }
 

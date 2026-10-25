@@ -1,6 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "ui/Layout.h"
 #include "ui/look/Tokens.h"
 #include "ui/look/TurbitoLookAndFeel.h"
 
@@ -74,4 +75,10 @@ TEST_CASE("Knob marker points up at the middle value", "[ui][look]")
 
     CHECK(image.getPixelAt(13, 5).getARGB() == tokens::deckA);
     CHECK(image.getPixelAt(13, 13).getARGB() == tokens::bg);
+}
+
+TEST_CASE("Labels uppercase Spanish letters", "[ui][look]")
+{
+    CHECK(upperCase(juce::String::fromUTF8("Duración · título · año · pingüino"))
+          == juce::String::fromUTF8("DURACIÓN · TÍTULO · AÑO · PINGÜINO"));
 }

@@ -21,3 +21,23 @@ inline int textWidth(const juce::Font& font, const juce::String& text)
 {
     return static_cast<int>(std::ceil(juce::GlyphArrangement::getStringWidth(font, text)));
 }
+
+// Uppercase that also covers á, é, í, ó, ú, ñ, ü: juce::String::toUpperCase
+// goes through towupper, which leaves non-ASCII letters alone in the C locale.
+inline juce::String upperCase(const juce::String& text)
+{
+    juce::String result;
+    result.preallocateBytes(text.getNumBytesAsUTF8());
+
+    for (auto p = text.getCharPointer(); ! p.isEmpty();)
+    {
+        auto c = juce::CharacterFunctions::toUpperCase(p.getAndAdvance());
+
+        if (c >= 0xe0 && c <= 0xfe && c != 0xf7)  // Latin-1 lowercase → uppercase
+            c -= 0x20;
+
+        result += juce::String::charToString(c);
+    }
+
+    return result;
+}
