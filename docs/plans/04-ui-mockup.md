@@ -246,7 +246,7 @@ ui/AppView
 ## Checklist
 
 - [x] T1 – Tokens generados y assets embebidos
-- [ ] T2 – `turbito_ui`, `TurbitoLookAndFeel` y fuentes
+- [x] T2 – `turbito_ui`, `TurbitoLookAndFeel` y fuentes
 - [ ] T3 – Widgets
 - [ ] T4 – `DeckComponent`, `MixerComponent` y fila de waveforms
 - [ ] T5 – `TopBar` y `LibraryComponent`
