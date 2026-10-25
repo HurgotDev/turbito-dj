@@ -8,11 +8,12 @@ App DJ nativa para macOS y Windows, inspirada en la cultura picotera de la
 costa colombiana. Dos decks, mezclador, efectos, hot cues, loops y un sampler
 de placas, que funciona igual con o sin controladora.
 
-> **Estado:** en desarrollo. Fase 4 (UI fiel al mockup) lista: la ventana
-> completa del diseño (barra superior, waveforms, decks, mezclador,
-> biblioteca y panel de Auto Mix) con Play, Pausa, CUE, mezclador y
-> crossfader funcionando; pitch, sync, loops, efectos, placas y Auto Mix se
-> ven pero llegan en sus fases. Siguiente: fase 5 (análisis y biblioteca).
+> **Estado:** en desarrollo. Fase 5 (análisis y biblioteca) lista: la
+> biblioteca vive en SQLite, "Importar" agrega carpetas con subcarpetas
+> leyendo los tags, y el análisis en segundo plano calcula BPM, beatgrid,
+> tono (Camelot) y forma de onda. Búsqueda, filtro, orden por columna y
+> carga en A/B con botón, doble clic o arrastrando. Siguiente: fase 6
+> (pitch, keylock y sync).
 > Plan de fases en [`docs/SPEC.md`](docs/SPEC.md).
 
 ## Funciones del MVP
