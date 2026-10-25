@@ -15,8 +15,9 @@
 // The whole window as the mockup lays it out: top bar, waveforms, decks and
 // mixer at fixed heights, the library with Auto Mix taking the rest. Never
 // scrolls. Knows nothing of the engine: deck and mixer input goes out
-// through onAction.
-class AppView : public juce::Component
+// through onAction. Library rows dragged onto a deck or its waveform load
+// through the library's onLoad, like its A/B buttons.
+class AppView : public juce::Component, public juce::DragAndDropContainer
 {
 public:
     static constexpr int deckRowHeight = MixerComponent::preferredHeight;

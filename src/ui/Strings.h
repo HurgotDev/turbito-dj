@@ -50,7 +50,7 @@ namespace strings
                                                       "Tono compatible con A", "Sin analizar" };
     inline constexpr const char* analyze = "Analizar";
     inline constexpr const char* importTracks = "Importar";
-    inline constexpr const char* importTitle = "Importar pistas";
+    inline constexpr const char* importTitle = "Importar carpeta";
     inline constexpr const char* trackColumns[] = { "Deck", "Título", "Artista", "BPM", "Tono",
                                                     "Duración", "Cargar" };
     inline constexpr const char* addToAutoMix = "+";

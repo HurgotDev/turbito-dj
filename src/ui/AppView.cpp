@@ -14,6 +14,15 @@ AppView::AppView()
     deckB.onAction = forward;
     mixerPanel.onAction = forward;
 
+    const auto load = [this](int deck, const juce::File& file)
+    {
+        if (libraryPanel.onLoad)
+            libraryPanel.onLoad(deck, file);
+    };
+    deckA.onFileDropped = [load](const juce::File& file) { load(0, file); };
+    deckB.onFileDropped = [load](const juce::File& file) { load(1, file); };
+    waveformPanel.onFileDropped = load;
+
     libraryPanel.onAddToAutoMix = [this](const LibraryTrack& track) { autoMixPanel.addTrack(track); };
     autoMixPanel.onCollapsedChanged = [this](bool collapsed) { libraryPanel.setSidePanelCollapsed(collapsed); };
     libraryPanel.setSidePanel(&autoMixPanel);

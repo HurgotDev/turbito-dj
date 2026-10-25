@@ -1,6 +1,7 @@
 #include "ui/deck/WaveformPanel.h"
 
 #include "ui/Strings.h"
+#include "ui/library/LibraryComponent.h"
 #include "ui/look/Fonts.h"
 #include "ui/look/Tokens.h"
 #include "ui/look/TurbitoLookAndFeel.h"
@@ -61,4 +62,16 @@ void WaveformPanel::paint(juce::Graphics& g)
         g.setColour(juce::Colour(tokens::bg));
         g.drawText(strings::deckLetters[deck], tile, juce::Justification::centred, false);
     }
+}
+
+bool WaveformPanel::isInterestedInDragSource(const SourceDetails& details)
+{
+    return LibraryComponent::draggedFile(details) != juce::File();
+}
+
+void WaveformPanel::itemDropped(const SourceDetails& details)
+{
+    if (onFileDropped)
+        onFileDropped(details.localPosition.y < tileBounds(1).getY() ? 0 : 1,
+                      LibraryComponent::draggedFile(details));
 }

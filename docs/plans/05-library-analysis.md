@@ -209,7 +209,7 @@ app/MainComponent
 - [x] T3 – Escaneo y tags
 - [x] T4 – Análisis
 - [x] T5 – Búsqueda, filtro y orden
-- [ ] T6 – UI de la biblioteca conectada
+- [x] T6 – UI de la biblioteca conectada
 - [ ] T7 – `app`: `Library` + motor
 - [ ] Checkpoint: el usuario prueba con su música
 - [ ] T8 – README, CHANGELOG y PR a `develop`

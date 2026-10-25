@@ -1,9 +1,15 @@
 #pragma once
 
+#include <cstdint>
 #include <optional>
 #include <vector>
 
 #include <juce_gui_basics/juce_gui_basics.h>
+
+// Heights for `count` bars, one per 50 ms peak (0–255 → 0–48 px), centred
+// on the playhead; bars before the start or past the end are 0.
+std::vector<float> barsAround(const std::vector<std::uint8_t>& peaks, double positionSeconds,
+                              int count = 160);
 
 // 54 px waveform strip: bars left of the playhead in the played colour,
 // the rest in the accent. Without bars it shows a flat placeholder.

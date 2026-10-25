@@ -16,6 +16,7 @@ struct LibraryTrack
 {
     juce::File file;
     juce::String title, artist, bpm, key, duration;
+    juce::int64 id = 0;  // the library record
 };
 
 // Library panel: collections, search toolbar, track table and an optional
@@ -28,6 +29,12 @@ public:
         juce::String label, count;
     };
 
+    // Table column ids that sort, for onSortChanged.
+    enum Column { titleColumn = 2, artistColumn, bpmColumn, keyColumn, durationColumn };
+
+    // The file a library row drag carries, or none if the drag is not one.
+    static juce::File draggedFile(const juce::DragAndDropTarget::SourceDetails&);
+
     LibraryComponent();
     ~LibraryComponent() override;
 
@@ -38,8 +45,6 @@ public:
     int getSelectedCollection() const noexcept { return selectedCollection; }
 
     void setTracks(std::vector<LibraryTrack>);
-    // Title from the file name, "—" elsewhere; files already listed are skipped.
-    void addFiles(const juce::Array<juce::File>&);
     const std::vector<LibraryTrack>& getTracks() const noexcept { return tracks; }
 
     // 0 = deck A, 1 = deck B; an empty file clears it.
@@ -54,6 +59,13 @@ public:
 
     std::function<void(int deck, const juce::File&)> onLoad;
     std::function<void(const LibraryTrack&)> onAddToAutoMix;
+    std::function<void(const juce::String&)> onSearchChanged;
+    // 0-based index into strings::libraryFilters.
+    std::function<void(int filterIndex)> onFilterChanged;
+    std::function<void(int collectionIndex)> onCollectionSelected;
+    std::function<void()> onImport;
+    std::function<void()> onAnalyze;
+    std::function<void(int columnId, bool ascending)> onSortChanged;
 
     void resized() override;
     void paint(juce::Graphics&) override;
@@ -70,12 +82,12 @@ private:
     juce::Component* refreshComponentForCell(int row, int columnId, bool isRowSelected,
                                              juce::Component* existing) override;
     void cellDoubleClicked(int row, int columnId, const juce::MouseEvent&) override;
+    void sortOrderChanged(int columnId, bool ascending) override;
+    juce::var getDragSourceDescription(const juce::SparseSet<int>& rows) override;
 
     int loadedDeckOf(int row) const;
     void tracksChanged();
-    void importFiles();
 
-    // shortcut: in-memory list filled by Importar, replaced by SQLite in phase 5.
     std::vector<LibraryTrack> tracks;
     std::array<juce::File, 2> loaded;
 
@@ -95,8 +107,6 @@ private:
     juce::Component* sidePanel = nullptr;
     PanelResizer sideResizer;
     bool sideCollapsed = false;
-
-    std::unique_ptr<juce::FileChooser> chooser;
 
     juce::Rectangle<int> searchBox, filterLabel, tableFrame;
 };

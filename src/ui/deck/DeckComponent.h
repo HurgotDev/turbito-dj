@@ -14,8 +14,9 @@ juce::String formatPitch(float percent);
 
 // One deck panel: header, progress, jog, transport, loops, pitch and pads.
 // Knows nothing of the engine: data comes in through setters, user input
-// goes out through onAction.
-class DeckComponent : public juce::Component
+// goes out through onAction. Library rows dropped on it go out through
+// onFileDropped.
+class DeckComponent : public juce::Component, public juce::DragAndDropTarget
 {
 public:
     // 0 = deck A, 1 = deck B.
@@ -32,6 +33,10 @@ public:
     PadGrid& pads();
 
     std::function<void(ActionEvent)> onAction;
+    std::function<void(const juce::File&)> onFileDropped;
+
+    bool isInterestedInDragSource(const SourceDetails&) override;
+    void itemDropped(const SourceDetails&) override;
 
     void resized() override;
     void paint(juce::Graphics&) override;

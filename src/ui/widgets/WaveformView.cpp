@@ -1,5 +1,7 @@
 #include "ui/widgets/WaveformView.h"
 
+#include <cmath>
+
 #include "ui/look/Tokens.h"
 
 namespace
@@ -12,6 +14,23 @@ namespace
     constexpr int placeholderBars = 160;
     constexpr float loopFillAlpha = 0.16f;
     constexpr float playheadWidth = 2.0f;
+}
+
+std::vector<float> barsAround(const std::vector<std::uint8_t>& peaks, double positionSeconds,
+                              int count)
+{
+    constexpr double peaksPerSecond = 20.0;
+    constexpr float maxBarHeight = 48.0f;
+
+    std::vector<float> heights(static_cast<std::size_t>(juce::jmax(0, count)), 0.0f);
+    const auto first = static_cast<juce::int64>(std::llround(positionSeconds * peaksPerSecond)) - count / 2;
+
+    for (std::size_t i = 0; i < heights.size(); ++i)
+        if (const auto index = first + static_cast<juce::int64>(i);
+            index >= 0 && index < static_cast<juce::int64>(peaks.size()))
+            heights[i] = peaks[static_cast<std::size_t>(index)] / 255.0f * maxBarHeight;
+
+    return heights;
 }
 
 WaveformView::WaveformView()
