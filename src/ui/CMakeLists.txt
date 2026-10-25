@@ -11,7 +11,8 @@ add_library(turbito_ui STATIC
     mixer/MixerComponent.cpp
     topbar/TopBar.cpp
     library/PanelResizer.cpp
-    library/LibraryComponent.cpp)
+    library/LibraryComponent.cpp
+    library/AutoMixPanel.cpp)
 
 target_include_directories(turbito_ui PUBLIC ${CMAKE_BINARY_DIR}/generated)
 

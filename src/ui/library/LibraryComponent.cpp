@@ -13,6 +13,7 @@ namespace
 {
     constexpr int inset = 1 + tokens::spacingPanelPadding;  // border + padding
     constexpr int resizerMargin = 4;
+    constexpr int collapsedMargin = 8;
     constexpr int columnGap = 10;
     constexpr int toolbarHeight = 36;
     constexpr int toolbarGap = 8;
@@ -314,7 +315,14 @@ void LibraryComponent::setSidePanel(juce::Component* panel)
     if (sidePanel != nullptr)
         addAndMakeVisible(sidePanel);
 
-    sideResizer.setVisible(sidePanel != nullptr);
+    sideResizer.setVisible(sidePanel != nullptr && ! sideCollapsed);
+    resized();
+}
+
+void LibraryComponent::setSidePanelCollapsed(bool collapsed)
+{
+    sideCollapsed = collapsed;
+    sideResizer.setVisible(sidePanel != nullptr && ! sideCollapsed);
     resized();
 }
 
@@ -364,7 +372,12 @@ void LibraryComponent::resized()
     area.removeFromLeft(resizerMargin);
 
     // Side panel and its resizer from the right.
-    if (sidePanel != nullptr)
+    if (sidePanel != nullptr && sideCollapsed)
+    {
+        sidePanel->setBounds(area.removeFromRight(tokens::layoutAutoMixWidthCollapsed));
+        area.removeFromRight(collapsedMargin);
+    }
+    else if (sidePanel != nullptr)
     {
         sidePanel->setBounds(area.removeFromRight(sideResizer.getPanelWidth()));
         area.removeFromRight(resizerMargin);

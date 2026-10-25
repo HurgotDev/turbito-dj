@@ -48,6 +48,9 @@ public:
     // Placed on the right with its own resizer (320–640); nullptr removes it.
     void setSidePanel(juce::Component*);
     void setSidePanelWidth(int width);
+    // Collapsed, the side panel is a 44-wide strip without its resizer;
+    // expanding restores the last width.
+    void setSidePanelCollapsed(bool);
 
     std::function<void(int deck, const juce::File&)> onLoad;
     std::function<void(const LibraryTrack&)> onAddToAutoMix;
@@ -91,6 +94,7 @@ private:
 
     juce::Component* sidePanel = nullptr;
     PanelResizer sideResizer;
+    bool sideCollapsed = false;
 
     std::unique_ptr<juce::FileChooser> chooser;
 

@@ -59,4 +59,43 @@ namespace strings
     inline constexpr const char* trackColumns[] = { "Deck", "Título", "Artista", "BPM", "Tono",
                                                     "Duración", "Cargar" };
     inline constexpr const char* addToAutoMix = "+";
+    inline constexpr const char* autoMix = "Auto Mix";
+    inline constexpr const char* pendingTracks = " pistas por sonar";
+    inline constexpr const char* autoMixSwitch = "Auto Mix activo";
+    inline constexpr const char* autoMixOn = "Activo";
+    inline constexpr const char* autoMixOff = "Pausado";
+    inline constexpr const char* collapseAutoMix = "Contraer el panel de Auto Mix";
+    inline constexpr const char* expandAutoMix = "Mostrar el panel de Auto Mix";
+    inline constexpr const char* autoMixStrip = "AUTO MIX · ";
+    inline constexpr const char* autoMixMenus[] = { "Modo de decks", "Transición",
+                                                    "Orden de reproducción", "Lista" };
+    inline constexpr const char* deckModes[] = { "Alternar decks A/B", "Un solo deck" };
+    inline constexpr const char* trimSilence = "Limpiar silencios";
+    inline constexpr const char* matchBpm = "Emparejar BPM";
+    inline constexpr const char* durationInBeats = "Duración en beats";
+    inline constexpr const char* durationInSeconds = "Duración en segundos";
+    inline constexpr const char* beats = " beats";
+    inline constexpr const char* seconds = " segundos";
+    inline constexpr const char* randomOrder = "Aleatorio";
+    inline constexpr const char* shuffleList = "Revolver lista";
+    inline constexpr const char* listActions[] = { "Limpiar lista", "Quitar tocadas",
+                                                   "Quitar duplicadas" };
+    inline constexpr const char* autoRemovePlayed = "Auto quitar tocadas";
+    inline constexpr const char* saveList = "Guardar lista…";
+    inline constexpr const char* loadList = "Cargar lista…";
+    inline constexpr const char* summaryDecks[] = { "Decks A/B", "Un solo deck" };
+    inline constexpr const char* summaryNormal = "Normal";
+    inline constexpr const char* summaryTrim = "Sin silencios";
+    inline constexpr const char* summaryBpm = "BPM emparejado";
+    inline constexpr const char* summarySeconds = " s";
+    inline constexpr const char* summaryAutoRemove = "Auto quitar";
+    inline constexpr const char* separator = " · ";
+    inline constexpr const char* queueStatuses[] = { "Tocada", "Sonando · A", "Siguiente · B",
+                                                     "En cola" };
+    inline constexpr const char* nextSingleDeck = "Siguiente · A (precarga)";
+    inline constexpr const char* duplicate = "Duplicada";
+    inline constexpr const char* bpmSuffix = " BPM";
+    inline constexpr const char* removeFromQueue = "×";
+    inline constexpr const char* emptyQueue =
+        "La lista está vacía. Agrega pistas con el botón + de la biblioteca.";
 }
