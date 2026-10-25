@@ -17,6 +17,7 @@ target_compile_definitions(turbito_tests PRIVATE
 target_link_libraries(turbito_tests
     PRIVATE
         Catch2::Catch2WithMain
-        turbito_engine)
+        turbito_engine
+        turbito_ui)
 
 catch_discover_tests(turbito_tests)
