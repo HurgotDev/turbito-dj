@@ -223,6 +223,10 @@ LibraryComponent::LibraryComponent()
     search.setColour(juce::TextEditor::backgroundColourId, transparent);
     search.setColour(juce::TextEditor::outlineColourId, transparent);
     search.setColour(juce::TextEditor::focusedOutlineColourId, transparent);
+    // Escape, or a click elsewhere in the library, focuses the library
+    // instead of the search, so key presses reach the app's shortcuts again.
+    search.onEscapeKey = [this] { grabKeyboardFocus(); };
+    setWantsKeyboardFocus(true);
     addAndMakeVisible(search);
 
     for (int i = 0; i < 4; ++i)

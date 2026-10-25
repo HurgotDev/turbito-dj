@@ -1,4 +1,5 @@
 add_library(turbito_ui STATIC
+    AppView.cpp
     look/Fonts.cpp
     look/TurbitoLookAndFeel.cpp
     widgets/Knob.cpp

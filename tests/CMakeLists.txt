@@ -7,6 +7,7 @@ add_executable(turbito_tests
     engine/deck/TrackLoaderTests.cpp
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
+    ui/AppViewTests.cpp
     ui/deck/DeckComponentTests.cpp
     ui/deck/WaveformPanelTests.cpp
     ui/library/AutoMixPanelTests.cpp

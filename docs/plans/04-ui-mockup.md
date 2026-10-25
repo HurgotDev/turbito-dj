@@ -251,7 +251,7 @@ ui/AppView
 - [x] T4 – `DeckComponent`, `MixerComponent` y fila de waveforms
 - [x] T5 – `TopBar` y `LibraryComponent`
 - [x] T6 – `AutoMixPanel`
-- [ ] T7 – `AppView` y `MainComponent` conectado
+- [x] T7 – `AppView` y `MainComponent` conectado
 - [ ] Checkpoint: el usuario prueba la app con audio real
 - [ ] T8 – Captura y validación
 - [ ] Checkpoint: el usuario revisa la captura contra el mockup
