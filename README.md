@@ -8,11 +8,12 @@ App DJ nativa para macOS y Windows, inspirada en la cultura picotera de la
 costa colombiana. Dos decks, mezclador, efectos, hot cues, loops y un sampler
 de placas, que funciona igual con o sin controladora.
 
-> **Estado:** en desarrollo. Fase 3 (dos decks y mezclador) lista: dos
-> decks con Play, Pausa y CUE, y un mezclador con gain, EQ de 3 bandas con
-> kill, filtro, faders, crossfader con curva y vúmetros, todavía con
-> controles provisionales. Siguiente: fase 4 (UI fiel al mockup). Plan de
-> fases en [`docs/SPEC.md`](docs/SPEC.md).
+> **Estado:** en desarrollo. Fase 4 (UI fiel al mockup) lista: la ventana
+> completa del diseño (barra superior, waveforms, decks, mezclador,
+> biblioteca y panel de Auto Mix) con Play, Pausa, CUE, mezclador y
+> crossfader funcionando; pitch, sync, loops, efectos, placas y Auto Mix se
+> ven pero llegan en sus fases. Siguiente: fase 5 (análisis y biblioteca).
+> Plan de fases en [`docs/SPEC.md`](docs/SPEC.md).
 
 ## Funciones del MVP
 
@@ -84,7 +85,8 @@ primera vez que se abre la app. La firma llega con la fase 13.
 
 ```
 docs/         SPEC.md, planes por fase y decisiones (ADRs)
-design/       mockup-reference.html y tokens.json: la referencia de la UI
+design/       mockup-reference.html, tokens.json y capturas: la referencia
+              de la UI
 assets/       logo, ícono y fuentes (Inter, JetBrains Mono, Titan One)
 mappings/     mappings MIDI por controladora
 test-audio/   audios sintéticos con valores esperados para las pruebas

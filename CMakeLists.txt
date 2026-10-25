@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(cmake/Dependencies.cmake)
 include(cmake/JuceShared.cmake)
+include(cmake/Tokens.cmake)
+include(cmake/BinaryData.cmake)
 
 include(CTest)
 add_subdirectory(src)
