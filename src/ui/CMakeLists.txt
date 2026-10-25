@@ -8,7 +8,10 @@ add_library(turbito_ui STATIC
     widgets/WaveformView.cpp
     deck/WaveformPanel.cpp
     deck/DeckComponent.cpp
-    mixer/MixerComponent.cpp)
+    mixer/MixerComponent.cpp
+    topbar/TopBar.cpp
+    library/PanelResizer.cpp
+    library/LibraryComponent.cpp)
 
 target_include_directories(turbito_ui PUBLIC ${CMAKE_BINARY_DIR}/generated)
 

@@ -9,10 +9,13 @@ add_executable(turbito_tests
     engine/mixer/CrossfaderTests.cpp
     ui/deck/DeckComponentTests.cpp
     ui/deck/WaveformPanelTests.cpp
+    ui/library/LibraryComponentTests.cpp
+    ui/library/PanelResizerTests.cpp
     ui/look/FontsTests.cpp
     ui/look/TokensTests.cpp
     ui/look/TurbitoLookAndFeelTests.cpp
     ui/mixer/MixerComponentTests.cpp
+    ui/topbar/TopBarTests.cpp
     ui/widgets/JogWheelTests.cpp
     ui/widgets/KnobTests.cpp
     ui/widgets/PadGridTests.cpp

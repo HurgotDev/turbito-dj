@@ -40,4 +40,23 @@ namespace strings
     inline constexpr const char* placas = "Placas";
     inline constexpr const char* fxNames[] = { "Echo", "Reverb", "Filtro", "Flanger",
                                                "Delay", "Phaser", "Gate", "Roll" };
+    inline constexpr const char* noController = "Sin controladora";
+    inline constexpr const char* audioPrefix = "Audio: ";
+    inline constexpr const char* audioBuffer = " kHz · buffer ";
+    inline constexpr const char* noAudioDevice = "Audio: sin dispositivo";
+    inline constexpr const char* master = "Master";
+    inline constexpr const char* record = "Grabar";
+    inline constexpr const char* settings = "Ajustes";
+    inline constexpr const char* library = "Biblioteca";
+    inline constexpr const char* collections[] = { "Todas las pistas", "Carpetas", "Historial",
+                                                   "Placas y drops" };
+    inline constexpr const char* searchPlaceholder = "Buscar por título, artista, BPM o tono…";
+    inline constexpr const char* libraryFilters[] = { "Todas las pistas", "BPM ±3 del deck A",
+                                                      "Tono compatible con A", "Sin analizar" };
+    inline constexpr const char* analyze = "Analizar";
+    inline constexpr const char* importTracks = "Importar";
+    inline constexpr const char* importTitle = "Importar pistas";
+    inline constexpr const char* trackColumns[] = { "Deck", "Título", "Artista", "BPM", "Tono",
+                                                    "Duración", "Cargar" };
+    inline constexpr const char* addToAutoMix = "+";
 }
