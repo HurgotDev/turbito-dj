@@ -1,4 +1,10 @@
 add_library(turbito_library STATIC
+    analysis/AnalysisQueue.cpp
+    analysis/BeatAnalyzer.cpp
+    analysis/Camelot.cpp
+    analysis/KeyAnalyzer.cpp
+    analysis/TrackAnalyzer.cpp
+    analysis/WaveformBuilder.cpp
     db/Database.cpp
     db/Schema.cpp
     db/TrackRepository.cpp

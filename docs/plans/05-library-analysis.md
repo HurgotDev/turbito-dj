@@ -207,7 +207,7 @@ app/MainComponent
 - [ ] Checkpoint: CI verde con dependencias nuevas
 - [x] T2 – Base de datos
 - [x] T3 – Escaneo y tags
-- [ ] T4 – Análisis
+- [x] T4 – Análisis
 - [x] T5 – Búsqueda, filtro y orden
 - [ ] T6 – UI de la biblioteca conectada
 - [ ] T7 – `app`: `Library` + motor

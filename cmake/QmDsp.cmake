@@ -24,7 +24,7 @@ add_library(turbito_qmdsp STATIC ${TURBITO_QMDSP_SOURCES})
 
 # kiss_fft_scalar must match in every translation unit that sees kiss_fft.h,
 # so it is PUBLIC.
-target_include_directories(turbito_qmdsp PUBLIC
+target_include_directories(turbito_qmdsp SYSTEM PUBLIC
     ${qmdsp_SOURCE_DIR}
     ${qmdsp_SOURCE_DIR}/ext/kissfft
     ${qmdsp_SOURCE_DIR}/ext/kissfft/tools)
