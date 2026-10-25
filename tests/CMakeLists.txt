@@ -11,6 +11,8 @@ add_executable(turbito_tests
     library/db/DatabaseTests.cpp
     library/db/SchemaTests.cpp
     library/db/TrackRepositoryTests.cpp
+    library/scan/FolderScannerTests.cpp
+    library/scan/TagReaderTests.cpp
     ui/AppViewSnapshotTests.cpp
     ui/AppViewTests.cpp
     ui/deck/DeckComponentTests.cpp
