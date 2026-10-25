@@ -8,6 +8,7 @@ add_executable(turbito_tests
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
     library/DependenciesTests.cpp
+    library/QueryTests.cpp
     library/db/DatabaseTests.cpp
     library/db/SchemaTests.cpp
     library/db/TrackRepositoryTests.cpp
