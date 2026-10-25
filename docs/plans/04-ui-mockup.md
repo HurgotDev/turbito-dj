@@ -255,5 +255,5 @@ ui/AppView
 - [ ] Checkpoint: el usuario prueba la app con audio real
 - [x] T8 – Captura y validación
 - [ ] Checkpoint: el usuario revisa la captura contra el mockup
-- [ ] T9 – README, CHANGELOG y PR a `develop`
+- [x] T9 – README, CHANGELOG y PR a `develop`
 - [ ] "Build & Test" en verde en macOS y Windows

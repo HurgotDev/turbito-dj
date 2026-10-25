@@ -36,6 +36,19 @@ es el texto del Release en GitHub.
   un solo knob, fader de volumen y vúmetro por canal.
 - Crossfader con curva ajustable, de suave (potencia constante) a corte.
 - Doble clic en cualquier knob o fader lo devuelve a su valor por defecto.
+- Interfaz del diseño: barra superior con estado del audio, waveforms,
+  decks con jog, pads y controles de loop y pitch, mezclador con knobs y
+  vúmetros de 14 segmentos, biblioteca con colecciones y tabla de pistas, y
+  panel de Auto Mix contraíble y redimensionable. Pitch, sync, loops,
+  efectos, placas, grabar y Auto Mix todavía no actúan.
+- "Importar" agrega archivos a la tabla de la biblioteca y los botones A/B
+  de cada fila los cargan en el deck.
+- La curva del crossfader está en Ajustes y se recuerda al reabrir la app.
+
+### Cambiado
+
+- Los controles provisionales de las fases 2 y 3 se reemplazan por la
+  interfaz del diseño; las pistas se cargan desde la biblioteca.
 
 ### Corregido
 
