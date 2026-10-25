@@ -17,6 +17,10 @@ public:
 
     // Button corner radius: button.getProperties().set(radiusProperty, 6).
     static inline const juce::Identifier radiusProperty { "radius" };
+    // Button font other than the height rule: setButtonFont(button, size, weight, mono).
+    static inline const juce::Identifier fontSizeProperty { "fontSize" };
+    static inline const juce::Identifier fontWeightProperty { "fontWeight" };
+    static inline const juce::Identifier monoProperty { "mono" };
     // Our menus show no shortcuts, so a ticked item whose
     // shortcutKeyDescription is radioMark draws a radio dot instead of a tick.
     static inline const juce::String radioMark { "radio" };
@@ -27,6 +31,11 @@ public:
     // section labels.
     static void drawLabelText(juce::Graphics&, const juce::String& text,
                               juce::Rectangle<float> area, juce::Justification);
+
+    // Panel chrome: panel fill, 1px border, radius 12.
+    static void drawPanel(juce::Graphics&, juce::Rectangle<float> bounds);
+
+    static void setButtonFont(juce::Button&, int size, int weight, bool mono = false);
 
     juce::Typeface::Ptr getTypefaceForFont(const juce::Font&) override;
 

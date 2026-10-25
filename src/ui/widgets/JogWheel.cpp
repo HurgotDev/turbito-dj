@@ -10,7 +10,7 @@ namespace
     constexpr float ringWidth = 6.0f;
     constexpr float markerWidth = 4.0f;
     constexpr float markerLength = 18.0f;
-    constexpr float markerTop = 5.0f;
+    constexpr float markerTop = ringWidth + 5.0f;  // the mockup's 5 is inside the ring
     constexpr double secondsPerTurn = 1.8;
 }
 

@@ -97,6 +97,24 @@ void TurbitoLookAndFeel::drawLabelText(juce::Graphics& g, const juce::String& te
     g.drawText(text.toUpperCase(), area, justification, false);
 }
 
+void TurbitoLookAndFeel::drawPanel(juce::Graphics& g, juce::Rectangle<float> bounds)
+{
+    const auto radius = static_cast<float>(tokens::radiusPanel);
+
+    g.setColour(colour(tokens::panel));
+    g.fillRoundedRectangle(bounds, radius);
+    g.setColour(colour(tokens::border));
+    g.drawRoundedRectangle(bounds.reduced(0.5f), radius - 0.5f, 1.0f);
+}
+
+void TurbitoLookAndFeel::setButtonFont(juce::Button& button, int size, int weight, bool mono)
+{
+    auto& properties = button.getProperties();
+    properties.set(fontSizeProperty, size);
+    properties.set(fontWeightProperty, weight);
+    properties.set(monoProperty, mono);
+}
+
 juce::Typeface::Ptr TurbitoLookAndFeel::getTypefaceForFont(const juce::Font& font)
 {
     if (font.getTypefaceName() == juce::Font::getDefaultSansSerifFontName())
@@ -106,8 +124,17 @@ juce::Typeface::Ptr TurbitoLookAndFeel::getTypefaceForFont(const juce::Font& fon
 }
 
 //==============================================================================
-juce::Font TurbitoLookAndFeel::getTextButtonFont(juce::TextButton&, int buttonHeight)
+juce::Font TurbitoLookAndFeel::getTextButtonFont(juce::TextButton& button, int buttonHeight)
 {
+    const auto& properties = button.getProperties();
+
+    if (properties.contains(fontSizeProperty))
+    {
+        const auto size = static_cast<float>(static_cast<int>(properties[fontSizeProperty]));
+        const auto weight = static_cast<int>(properties[fontWeightProperty]);
+        return properties[monoProperty] ? fonts::mono(size, weight) : fonts::ui(size, weight);
+    }
+
     // The mockup's 40-high buttons (CUE, PLAY) are 13/700; the rest 12/600.
     return buttonHeight >= 40 ? fonts::ui(static_cast<float>(tokens::fontSizeBody), 700)
                               : fonts::ui(static_cast<float>(tokens::fontSizeButton), 600);

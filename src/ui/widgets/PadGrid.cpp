@@ -17,7 +17,8 @@ namespace
 
     PadGrid::Pad emptyPad()
     {
-        return { strings::padEmpty, juce::Colour(tokens::empty), juce::Colour(tokens::textMuted) };
+        return { juce::String::fromUTF8(strings::padEmpty), juce::Colour(tokens::empty),
+                 juce::Colour(tokens::textMuted) };
     }
 }
 

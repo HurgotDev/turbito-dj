@@ -1,0 +1,23 @@
+#pragma once
+
+#include <cmath>
+
+#include <juce_gui_basics/juce_gui_basics.h>
+
+// Cell `index` of a row split into `count` equal columns with `gap` between
+// them, like a CSS grid of 1fr columns.
+inline juce::Rectangle<int> gridCell(juce::Rectangle<int> row, int count, int gap, int index)
+{
+    const auto width = static_cast<float>(row.getWidth() - gap * (count - 1))
+                       / static_cast<float>(count);
+    const auto start = static_cast<float>(index) * (width + static_cast<float>(gap));
+    const auto left = juce::roundToInt(start);
+    const auto right = juce::roundToInt(start + width);
+    return row.withX(row.getX() + left).withWidth(right - left);
+}
+
+// Width of a single line of text, rounded up.
+inline int textWidth(const juce::Font& font, const juce::String& text)
+{
+    return static_cast<int>(std::ceil(juce::GlyphArrangement::getStringWidth(font, text)));
+}

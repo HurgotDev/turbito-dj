@@ -5,7 +5,10 @@ add_library(turbito_ui STATIC
     widgets/VuMeter.cpp
     widgets/JogWheel.cpp
     widgets/PadGrid.cpp
-    widgets/WaveformView.cpp)
+    widgets/WaveformView.cpp
+    deck/WaveformPanel.cpp
+    deck/DeckComponent.cpp
+    mixer/MixerComponent.cpp)
 
 target_include_directories(turbito_ui PUBLIC ${CMAKE_BINARY_DIR}/generated)
 

@@ -7,9 +7,12 @@ add_executable(turbito_tests
     engine/deck/TrackLoaderTests.cpp
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
+    ui/deck/DeckComponentTests.cpp
+    ui/deck/WaveformPanelTests.cpp
     ui/look/FontsTests.cpp
     ui/look/TokensTests.cpp
     ui/look/TurbitoLookAndFeelTests.cpp
+    ui/mixer/MixerComponentTests.cpp
     ui/widgets/JogWheelTests.cpp
     ui/widgets/KnobTests.cpp
     ui/widgets/PadGridTests.cpp
