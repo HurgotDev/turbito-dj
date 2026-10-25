@@ -7,6 +7,7 @@ namespace strings
     inline constexpr const char* pause = "PAUSA";
     inline constexpr const char* cue = "CUE";
     inline constexpr const char* loadFailed = "No se pudo cargar la pista";
+    inline constexpr const char* libraryFailed = "No se pudo abrir la biblioteca";
     inline constexpr const char* noTrack = "Sin pista";
     inline constexpr const char* gain = "Gain";
     inline constexpr const char* eqHigh = "Agudos";

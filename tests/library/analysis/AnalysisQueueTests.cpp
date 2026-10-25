@@ -2,42 +2,10 @@
 
 #include "library/analysis/AnalysisQueue.h"
 
-#if JUCE_MAC
-#include <CoreFoundation/CoreFoundation.h>
-#endif
+#include "MessageLoop.h"
 
 #include <cmath>
-#include <functional>
 #include <map>
-
-namespace
-{
-// Runs the message loop until done() or the timeout. JUCE_MODAL_LOOPS_PERMITTED is off
-// (no runDispatchLoopUntil), and on macOS runDispatchLoop returns at once outside an
-// app bundle, so there the main CFRunLoop (JUCE's message queue) is pumped directly.
-void runMessageLoopUntil(const std::function<bool()>& done, int timeoutMs)
-{
-    const auto end = juce::Time::getMillisecondCounter() + static_cast<juce::uint32>(timeoutMs);
-#if JUCE_MAC
-    while (! done() && juce::Time::getMillisecondCounter() < end)
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.01, true);
-#else
-    struct Poll final : juce::Timer
-    {
-        std::function<void()> check;
-        void timerCallback() override { check(); }
-    } poll;
-
-    poll.check = [&]
-    {
-        if (done() || juce::Time::getMillisecondCounter() >= end)
-            juce::MessageManager::getInstance()->stopDispatchLoop();
-    };
-    poll.startTimer(10);
-    juce::MessageManager::getInstance()->runDispatchLoop();
-#endif
-}
-} // namespace
 
 TEST_CASE("AnalysisQueue delivers one result per track on the message thread", "[library][analysis]")
 {

@@ -5,6 +5,7 @@ add_library(turbito_library STATIC
     analysis/KeyAnalyzer.cpp
     analysis/TrackAnalyzer.cpp
     analysis/WaveformBuilder.cpp
+    Library.cpp
     db/Database.cpp
     db/Schema.cpp
     db/TrackRepository.cpp

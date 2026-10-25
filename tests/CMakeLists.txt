@@ -8,6 +8,7 @@ add_executable(turbito_tests
     engine/mixer/ChannelTests.cpp
     engine/mixer/CrossfaderTests.cpp
     library/DependenciesTests.cpp
+    library/LibraryTests.cpp
     library/QueryTests.cpp
     library/analysis/AnalysisQueueTests.cpp
     library/analysis/CamelotTests.cpp

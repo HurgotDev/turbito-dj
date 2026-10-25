@@ -210,7 +210,7 @@ app/MainComponent
 - [x] T4 – Análisis
 - [x] T5 – Búsqueda, filtro y orden
 - [x] T6 – UI de la biblioteca conectada
-- [ ] T7 – `app`: `Library` + motor
+- [x] T7 – `app`: `Library` + motor
 - [ ] Checkpoint: el usuario prueba con su música
 - [ ] T8 – README, CHANGELOG y PR a `develop`
 - [ ] "Build & Test" en verde en macOS y Windows
